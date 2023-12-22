@@ -5,6 +5,7 @@ import Container from "../Container"
 import Logo from "./Logo"
 import SearchBar from "./SearchBar"
 import UserMenu from "./UserMenu"
+import Categories from "./Categories"
 
 interface NavbarProps {
   currentUser?: User | null
@@ -22,6 +23,7 @@ const Navbar = ({ currentUser }: NavbarProps) => {
           </div>
         </Container>
       </div>
+      <Categories />
     </div>
   )
 }
