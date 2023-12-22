@@ -8,7 +8,7 @@ interface ButtonProps {
   outline?: boolean
   small?: boolean
   icon?: IconType
-  onClick: () => void
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Button = ({ label, disabled, outline, small, icon: Icon, onClick }: ButtonProps) => {
