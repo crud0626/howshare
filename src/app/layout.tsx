@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar"
 import RegisterModal from "./components/modals/RegisterModal"
 import ToasterProvider from "./providers/ToasterProvider"
 import LoginModal from "./components/modals/LoginModal"
+import getCurrentUser from "./actions/getCurrentUser"
 
 const font = Nunito({ subsets: ["latin"] })
 
@@ -13,14 +14,15 @@ export const metadata: Metadata = {
   description: "Let's Share and use your house",
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const currentUser = await getCurrentUser()
   return (
     <html lang="ko">
       <body className={font.className}>
         <ToasterProvider />
         <RegisterModal />
         <LoginModal />
-        <Navbar />
+        <Navbar currentUser={currentUser} />
         {children}
       </body>
     </html>

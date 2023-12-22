@@ -2,12 +2,18 @@
 
 import { useCallback, useState } from "react"
 import { AiOutlineMenu } from "react-icons/ai"
+import { signOut } from "next-auth/react"
 import Avatar from "../Avatar"
 import MenuItem from "./MenuItem"
 import useRegisterModal from "@/app/hooks/useRegisterModal"
 import useLoginModal from "@/app/hooks/useLoginModal"
+import { User } from "@prisma/client"
 
-const UserMenu = () => {
+interface UserMenuProps {
+  currentUser?: User | null
+}
+
+const UserMenu = ({ currentUser }: UserMenuProps) => {
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
   const [isOpen, setIsOpen] = useState(false)
@@ -37,14 +43,38 @@ const UserMenu = () => {
       </div>
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
-          <>
-            <div className="flex flex-col cursor-pointer">
-              <MenuItem label="Login" onClick={loginModal.onOpen} />
-            </div>
-            <div className="flex flex-col cursor-pointer">
-              <MenuItem label="Sign Up" onClick={registerModal.onOpen} />
-            </div>
-          </>
+          {currentUser ? (
+            <>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="My trips" onClick={() => {}} />
+              </div>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="My favorites" onClick={() => {}} />
+              </div>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="My reservations" onClick={() => {}} />
+              </div>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="My properties" onClick={() => {}} />
+              </div>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="My home" onClick={() => {}} />
+              </div>
+              <hr />
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="Log out" onClick={() => signOut()} />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="Login" onClick={loginModal.onOpen} />
+              </div>
+              <div className="flex flex-col cursor-pointer">
+                <MenuItem label="Sign Up" onClick={registerModal.onOpen} />
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
