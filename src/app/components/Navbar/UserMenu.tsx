@@ -3,11 +3,13 @@
 import { useCallback, useState } from "react"
 import { AiOutlineMenu } from "react-icons/ai"
 import { signOut } from "next-auth/react"
+import { User } from "@prisma/client"
+
 import Avatar from "../Avatar"
 import MenuItem from "./MenuItem"
 import useRegisterModal from "@/app/hooks/useRegisterModal"
 import useLoginModal from "@/app/hooks/useLoginModal"
-import { User } from "@prisma/client"
+import useRentModal from "@/app/hooks/useRentModal"
 
 interface UserMenuProps {
   currentUser?: User | null
@@ -16,18 +18,28 @@ interface UserMenuProps {
 const UserMenu = ({ currentUser }: UserMenuProps) => {
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
+  const rentModal = useRentModal()
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleOpen = useCallback(() => {
     setIsOpen(prev => !prev)
   }, [])
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      loginModal.onOpen()
+      return
+    }
+
+    rentModal.onOpen()
+  }, [currentUser, loginModal, rentModal])
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <button
+          onClick={onRent}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          onClick={() => {}}
         >
           Airbnb your home
         </button>
@@ -58,7 +70,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
                 <MenuItem label="My properties" onClick={() => {}} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My home" onClick={() => {}} />
+                <MenuItem label="My home" onClick={rentModal.onOpen} />
               </div>
               <hr />
               <div className="flex flex-col cursor-pointer">
