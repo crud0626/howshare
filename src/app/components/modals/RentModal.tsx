@@ -9,6 +9,7 @@ import Heading from "../Heading"
 import { categories } from "../Navbar/Categories"
 import CategoryInput from "../inputs/CategoryInput"
 import CountrySelect from "../inputs/CountrySelect"
+import Counter from "../inputs/Counter"
 
 enum STEPS {
   CATEGORY = 0,
@@ -46,6 +47,9 @@ const RentModal = () => {
 
   const category = watch("category")
   const location = watch("location")
+  const guestCount = watch("guestCount")
+  const roomCount = watch("roomCount")
+  const bathroomCount = watch("bathroomCount")
 
   const Map = useMemo(
     () =>
@@ -111,6 +115,34 @@ const RentModal = () => {
         <Heading title="숙소의 위치는 어디인가요?" subtitle="손님이 찾을 수 있도록 입력해주세요!" />
         <CountrySelect value={location} onChange={value => setCustomValue("location", value)} />
         <Map center={location?.latlng} />
+      </div>
+    )
+  }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="몇 명까지 입장할 수 있나요?" subtitle="어떤 어메니티들이 있나요?" />
+        <Counter
+          title="최대 인원 수를 입력해주세요"
+          subtitle="최대 인원 수"
+          value={guestCount}
+          onChange={value => setCustomValue("guestCount", value)}
+        />
+        <hr />
+        <Counter
+          title="방 개수"
+          subtitle="방 개수가 몇개인가요?"
+          value={roomCount}
+          onChange={value => setCustomValue("roomCount", value)}
+        />
+        <hr />
+        <Counter
+          title="화장실"
+          subtitle="화장실이 몇개인가요?"
+          value={bathroomCount}
+          onChange={value => setCustomValue("bathroomCount", value)}
+        />
       </div>
     )
   }
