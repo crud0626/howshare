@@ -64,7 +64,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
                 <MenuItem label="My trips" onClick={() => router.push("/trips")} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My favorites" onClick={() => {}} />
+                <MenuItem label="My favorites" onClick={() => router.push("/favorites")} />
               </div>
               <div className="flex flex-col cursor-pointer">
                 <MenuItem label="My reservations" onClick={() => router.push("/reservations")} />
