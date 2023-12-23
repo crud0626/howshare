@@ -1,4 +1,9 @@
+import { Listing, Reservation } from "@prisma/client"
 import prisma from "@/app/lib/prismadb"
+
+export type UserReservation = Reservation & {
+  listing: Listing
+}
 
 interface IParams {
   listingId?: string

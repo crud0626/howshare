@@ -1,12 +1,14 @@
 "use client"
 
 import { useCallback, useState } from "react"
+import { useRouter } from "next/navigation"
 import { AiOutlineMenu } from "react-icons/ai"
 import { signOut } from "next-auth/react"
 import { User } from "@prisma/client"
 
 import Avatar from "../Avatar"
 import MenuItem from "./MenuItem"
+
 import useRegisterModal from "@/app/hooks/useRegisterModal"
 import useLoginModal from "@/app/hooks/useLoginModal"
 import useRentModal from "@/app/hooks/useRentModal"
@@ -16,6 +18,7 @@ interface UserMenuProps {
 }
 
 const UserMenu = ({ currentUser }: UserMenuProps) => {
+  const router = useRouter()
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
   const rentModal = useRentModal()
@@ -58,7 +61,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
           {currentUser ? (
             <>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My trips" onClick={() => {}} />
+                <MenuItem label="My trips" onClick={() => router.push("/trips")} />
               </div>
               <div className="flex flex-col cursor-pointer">
                 <MenuItem label="My favorites" onClick={() => {}} />

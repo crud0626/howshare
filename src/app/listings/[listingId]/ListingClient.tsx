@@ -67,8 +67,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
       .then(() => {
         toast.success("성공적으로 예약되었습니다!")
         setDateRange(initialDateRange)
-        // /trips로 리다이렉트
-        router.refresh()
+        router.push("/trips")
       })
       .catch(() => {
         toast.error("예약에 실패하였습니다.")
