@@ -1,9 +1,9 @@
-import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { useCallback, useMemo } from "react"
 import useLoginModal from "./useLoginModal"
 import { User } from "@prisma/client"
+import { toast } from "react-toastify"
 
 interface IUseFavorite {
   listingId: string

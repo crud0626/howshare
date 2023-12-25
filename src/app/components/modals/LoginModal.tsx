@@ -12,7 +12,7 @@ import useRegisterModal from "@/app/hooks/useRegisterModal"
 import Modal from "./Modal"
 import Heading from "../Heading"
 import Input from "../inputs/Input"
-import toast from "react-hot-toast"
+import { toast } from "react-toastify"
 import Button from "../Button"
 
 const LoginModal = () => {

@@ -13,7 +13,7 @@ import Counter from "../inputs/Counter"
 import ImageUpload from "../inputs/ImageUpload"
 import Input from "../inputs/Input"
 import axios from "axios"
-import toast from "react-hot-toast"
+import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 
 enum STEPS {

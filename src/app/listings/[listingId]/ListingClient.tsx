@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import toast from "react-hot-toast"
+import { toast } from "react-toastify"
 import { Range } from "react-date-range"
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"

@@ -3,9 +3,8 @@
 import { useCallback, useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import toast from "react-hot-toast"
+import { toast } from "react-toastify"
 
-import { UserReservation } from "../actions/getReservations"
 import { Listing, User } from "@prisma/client"
 import Container from "../components/Container"
 import Heading from "../components/Heading"

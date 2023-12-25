@@ -3,7 +3,7 @@
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react"
-import toast from "react-hot-toast"
+import { toast } from "react-toastify"
 
 import { User } from "@prisma/client"
 import { UserReservation } from "../actions/getReservations"
