@@ -20,7 +20,7 @@ const nextConfig = {
         hostname: "phinf.pstatic.net",
       },
       {
-        protocol: "https",
+        protocol: "http",
         hostname: "k.kakaocdn.net",
       },
     ],
