@@ -1,18 +1,19 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import { AiFillGithub } from "react-icons/ai"
-import { FcGoogle } from "react-icons/fc"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-
+import { toast } from "react-toastify"
 import useLoginModal from "@/app/hooks/useLoginModal"
 import useRegisterModal from "@/app/hooks/useRegisterModal"
+
+import { FcGoogle } from "react-icons/fc"
+import { SiKakao, SiNaver } from "react-icons/si"
+
 import Modal from "./Modal"
 import Heading from "../Heading"
 import Input from "../inputs/Input"
-import { toast } from "react-toastify"
 import Button from "../Button"
 
 const LoginModal = () => {
@@ -77,8 +78,9 @@ const LoginModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button outline label="Continue with Google" icon={FcGoogle} onClick={() => signIn("google")} />
-      <Button outline label="Continue with Github" icon={AiFillGithub} onClick={() => signIn("github")} />
+      <Button outline label="구글로 로그인하기" icon={FcGoogle} onClick={() => signIn("google")} />
+      <Button outline label="네이버로 로그인하기" icon={SiNaver} iconColor="#20cb01" onClick={() => signIn("naver")} />
+      <Button outline label="카카오로 로그인하기" icon={SiKakao} iconColor="#000000" onClick={() => signIn("kakao")} />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
           <div>처음이신가요?</div>

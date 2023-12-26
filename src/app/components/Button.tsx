@@ -8,10 +8,11 @@ interface ButtonProps {
   outline?: boolean
   small?: boolean
   icon?: IconType
+  iconColor?: string
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const Button = ({ label, disabled, outline, small, icon: Icon, onClick }: ButtonProps) => {
+const Button = ({ label, disabled, outline, small, icon: Icon, iconColor, onClick }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
@@ -33,7 +34,7 @@ const Button = ({ label, disabled, outline, small, icon: Icon, onClick }: Button
     ${small ? "border-[1px]" : "border-2"}
   `}
     >
-      {Icon && <Icon size={24} className="absolute left-4 top-3" />}
+      {Icon && <Icon color={iconColor} size={24} className="absolute left-4 top-3" />}
       {label}
     </button>
   )
