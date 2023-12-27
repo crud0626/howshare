@@ -6,7 +6,7 @@ interface Coordinates {
 let geocoder: kakao.maps.services.Geocoder | undefined
 
 function initGeocoder() {
-  if (window.kakao && window.kakao.maps) {
+  if (window.kakao?.maps?.services) {
     geocoder = new window.kakao.maps.services.Geocoder()
   } else {
     console.error("Kakao maps not available")
