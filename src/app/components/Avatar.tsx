@@ -7,7 +7,16 @@ interface AvatarProps {
 }
 
 const Avatar = ({ src }: AvatarProps) => {
-  return <Image src={src || "/images/placeholder.jpg"} width={30} height={30} alt="avatar" className="rounded-full" />
+  return (
+    <Image
+      src={src || "/images/placeholder.jpg"}
+      style={{ objectFit: "cover", aspectRatio: "1/1" }}
+      width={30}
+      height={30}
+      alt="avatar"
+      className="rounded-full"
+    />
+  )
 }
 
 export default Avatar
