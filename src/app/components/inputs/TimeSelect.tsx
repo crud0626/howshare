@@ -54,7 +54,7 @@ const TimeSelect = ({ value, title, dateRange, required, onChange }: TimeSelectP
         options={hoursOptions}
         isOptionDisabled={option => option.isDisabled}
         onChange={data => {
-          if (data?.value) onChange(data.value)
+          if (data) onChange(data.value)
         }}
         classNames={{
           control: () => "p-3 border-2",
