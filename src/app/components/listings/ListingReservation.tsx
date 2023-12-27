@@ -38,17 +38,19 @@ const ListingReservation = ({
         <div className="font-light text-neutral-600">/ night</div>
       </div>
       <hr />
-      <Calendar value={dateRange} disabledDates={disabledDates} onChange={value => onChangeDate(value.selection)} />
+      <Calendar value={dateRange} onChange={value => onChangeDate(value.selection)} />
       <div className="flex flex-col gap-3 p-4">
         <TimeSelect
           title="입실 시간"
           value={timeRange.startTime}
+          dateRange={dateRange}
           required
           onChange={value => onChangeRange("startTime", value)}
         />
         <TimeSelect
           title="퇴실 시간"
           value={timeRange.endTime}
+          dateRange={dateRange}
           required
           onChange={value => onChangeRange("endTime", value)}
         />

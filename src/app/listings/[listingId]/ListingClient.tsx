@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { Range } from "react-date-range"
-import { differenceInCalendarDays, eachDayOfInterval, set } from "date-fns"
+import { differenceInCalendarDays, eachDayOfInterval } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import { categories } from "@/app/components/Navbar/Categories"
@@ -71,7 +71,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
     setIsLoading(true)
 
     // 리팩토링 필요
-    const startDate = new Date(dateRange.startDate).setHours(timeRange.startTime, 0, 0)
+    const startDate = new Date(new Date(dateRange.startDate).setHours(timeRange.startTime, 0, 0))
     const endDate = new Date(new Date(dateRange.endDate).setHours(timeRange.endTime, 0))
 
     axios
