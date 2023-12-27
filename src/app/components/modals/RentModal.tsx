@@ -2,19 +2,20 @@
 
 import { useMemo, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
-import dynamic from "next/dynamic"
-import useRentModal from "@/app/hooks/useRentModal"
-import Modal from "./Modal"
-import Heading from "../Heading"
-import { categories } from "../Navbar/Categories"
-import CategoryInput from "../inputs/CategoryInput"
-import CountrySelect from "../inputs/CountrySelect"
-import Counter from "../inputs/Counter"
-import ImageUpload from "../inputs/ImageUpload"
-import Input from "../inputs/Input"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
+
+import useRentModal from "@/app/hooks/useRentModal"
+import { categories } from "../Navbar/Categories"
+
+import Modal from "./Modal"
+import Heading from "../Heading"
+import CategoryInput from "../inputs/CategoryInput"
+import StateSelect from "../inputs/StateSelect"
+import Counter from "../inputs/Counter"
+import ImageUpload from "../inputs/ImageUpload"
+import Input from "../inputs/Input"
 
 enum STEPS {
   CATEGORY = 0,
@@ -59,14 +60,6 @@ const RentModal = () => {
   const roomCount = watch("roomCount")
   const bathroomCount = watch("bathroomCount")
   const imageSrc = watch("imageSrc")
-
-  const Map = useMemo(
-    () =>
-      dynamic(() => import("../Map"), {
-        ssr: false,
-      }),
-    [location],
-  )
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -147,8 +140,7 @@ const RentModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading title="숙소의 위치는 어디인가요?" subtitle="손님이 찾을 수 있도록 입력해주세요!" />
-        <CountrySelect value={location} onChange={value => setCustomValue("location", value)} />
-        <Map center={location?.latlng} />
+        <StateSelect value={location} onChange={value => setCustomValue("location", value)} />
       </div>
     )
   }
@@ -221,14 +213,14 @@ const RentModal = () => {
 
   return (
     <Modal
-      isOpen={rentModal.isOpen}
       title="Login"
+      isOpen={rentModal.isOpen}
       body={bodyContent}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
       onClose={rentModal.onClose}
-      onSubmit={handleSubmit(onSubmit)} // 여기 설정 잘못한듯
+      onSubmit={handleSubmit(onSubmit)}
     />
   )
 }

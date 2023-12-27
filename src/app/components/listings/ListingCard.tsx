@@ -1,12 +1,11 @@
 "use client"
 
 import { useCallback, useMemo } from "react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { format } from "date-fns"
-import Image from "next/image"
-import HeartButton from "../HeartButton"
 import { Listing, Reservation, User } from "@prisma/client"
-import useCountries from "@/app/hooks/useContries"
+import HeartButton from "../HeartButton"
 import Button from "../Button"
 
 interface ListingCardProps {
@@ -29,9 +28,6 @@ const ListingCard = ({
   onAction,
 }: ListingCardProps) => {
   const router = useRouter()
-  const { getByValue } = useCountries()
-
-  const location = getByValue(data.locationValue)
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -94,9 +90,7 @@ const ListingCard = ({
             <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
-        <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
-        </div>
+        <div className="font-semibold text-lg">{data.locationValue}</div>
         <div className="font-light text-neutral-500">{reservationDate || data.category}</div>
         <div className="flex flex-row items-center gap-1">
           <div className="font-semibold">$ {price}</div>

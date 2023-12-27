@@ -4,14 +4,12 @@ import { BiSearch } from "react-icons/bi"
 import { useSearchParams } from "next/navigation"
 
 import useSearchModal from "@/app/hooks/useSearchModal"
-import useCountries from "@/app/hooks/useContries"
 import { useMemo } from "react"
 import { differenceInDays } from "date-fns"
 
 const SearchBar = () => {
   const searchModal = useSearchModal()
   const params = useSearchParams()
-  const { getByValue } = useCountries()
 
   const locationValue = params?.get("locationValue")
   const startDate = params?.get("startDate")
@@ -19,12 +17,8 @@ const SearchBar = () => {
   const guestCount = params?.get("guestCount")
 
   const locationLabel = useMemo(() => {
-    if (locationValue) {
-      return getByValue(locationValue)?.label
-    }
-
-    return "어디든지"
-  }, [getByValue, locationValue])
+    return locationValue || "어디든지"
+  }, [locationValue])
 
   const durationLabel = useMemo(() => {
     if (startDate && endDate) {

@@ -8,7 +8,7 @@ import { Range } from "react-date-range"
 import qs from "query-string"
 import { formatISO } from "date-fns"
 
-import CountrySelect, { CountrySelectValue } from "../inputs/CountrySelect"
+import StateSelect from "../inputs/StateSelect"
 import useSearchModal from "@/app/hooks/useSearchModal"
 
 import Modal from "./Modal"
@@ -27,7 +27,7 @@ const SearchModal = () => {
   const params = useSearchParams()
   const searchModal = useSearchModal()
 
-  const [location, setLoaction] = useState<CountrySelectValue>()
+  const [location, setLoaction] = useState<string>("")
   const [step, setStep] = useState(STEPS.LOCATION)
   const [guestCount, setGuestCount] = useState(1)
   const [roomCount, setRoomCount] = useState(1)
@@ -106,9 +106,9 @@ const SearchModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading title="어디에 가고 싶으세요?" subtitle="지역을 선택해주세요!" />
-      <CountrySelect value={location} onChange={value => setLoaction(value as CountrySelectValue)} />
+      <StateSelect value={location} onChange={value => setLoaction(value)} />
       <hr />
-      <Map center={location?.latlng} />
+      <Map userAddress={location} />
     </div>
   )
 

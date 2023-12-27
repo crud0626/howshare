@@ -1,11 +1,11 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { IconType } from "react-icons"
 import { User } from "@prisma/client"
-import useCountries from "@/app/hooks/useContries"
+
 import Avatar from "@/app/components/Avatar"
 import ListingCategory from "./ListingCategory"
-import dynamic from "next/dynamic"
 
 const Map = dynamic(() => import("@/app/components/Map"))
 
@@ -34,10 +34,6 @@ const ListingInfo = ({
   locationValue,
   category,
 }: ListingInfoProps) => {
-  const { getByValue } = useCountries()
-
-  const coordinates = getByValue(locationValue)?.latlng
-
   return (
     <div className="col-span-4 flex flex-col gap-8">
       <div className="flex flex-col gap-2">
@@ -56,7 +52,7 @@ const ListingInfo = ({
       <hr />
       <div className="text-lg font-light text-neutral-500">{description}</div>
       <hr />
-      <Map center={coordinates} />
+      <Map userAddress={locationValue} />
     </div>
   )
 }
