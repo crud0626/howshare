@@ -2,6 +2,8 @@
 
 import { Range } from "react-date-range"
 
+import { TimeRange } from "@/app/listings/[listingId]/ListingClient"
+
 import Calendar from "../inputs/Calendar"
 import Button from "../Button"
 import TimeSelect from "../inputs/TimeSelect"
@@ -10,20 +12,24 @@ interface ListingReservationProps {
   price: number
   totalPrice: number
   dateRange: Range
+  timeRange: TimeRange
   disabled?: boolean
   disabledDates: Date[]
   onSubmit: () => void
   onChangeDate: (value: Range) => void
+  onChangeRange: (type: keyof TimeRange, value: number) => void
 }
 
 const ListingReservation = ({
   price,
   totalPrice,
   dateRange,
+  timeRange,
   disabled,
   disabledDates,
   onSubmit,
   onChangeDate,
+  onChangeRange,
 }: ListingReservationProps) => {
   return (
     <div className="bg-white rounded-xl border-[1px] border-neutral-200">
@@ -34,8 +40,18 @@ const ListingReservation = ({
       <hr />
       <Calendar value={dateRange} disabledDates={disabledDates} onChange={value => onChangeDate(value.selection)} />
       <div className="flex flex-col gap-3 p-4">
-        <TimeSelect title="입실 시간" required onChange={() => {}} />
-        <TimeSelect title="퇴실 시간" required onChange={() => {}} />
+        <TimeSelect
+          title="입실 시간"
+          value={timeRange.startTime}
+          required
+          onChange={value => onChangeRange("startTime", value)}
+        />
+        <TimeSelect
+          title="퇴실 시간"
+          value={timeRange.endTime}
+          required
+          onChange={value => onChangeRange("endTime", value)}
+        />
       </div>
       <hr />
       <div className="p-4">

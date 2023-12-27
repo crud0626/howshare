@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { Range } from "react-date-range"
-import { differenceInCalendarDays, eachDayOfInterval } from "date-fns"
+import { differenceInCalendarDays, eachDayOfInterval, set } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import { categories } from "@/app/components/Navbar/Categories"
@@ -21,10 +21,20 @@ interface ListingClientProps {
   currentUser?: User | null
 }
 
+export type TimeRange = {
+  startTime: number
+  endTime: number
+}
+
 const initialDateRange = {
   key: "selection",
   startDate: new Date(),
   endDate: new Date(),
+}
+
+const intialTimeRange: TimeRange = {
+  startTime: new Date().getHours() + 1,
+  endTime: new Date().getHours() + 2,
 }
 
 const ListingClient = ({ listing, reservations = [], currentUser }: ListingClientProps) => {
@@ -49,19 +59,26 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
   const [isLoading, setIsLoading] = useState(false)
   const [totalPrice, setTotalPrice] = useState(listing.price)
   const [dateRange, setDateRange] = useState<Range>(initialDateRange)
+  const [timeRange, setTimeRange] = useState<TimeRange>(intialTimeRange)
 
   const onCreateReservation = useCallback(() => {
-    if (!currentUser) {
-      return loginModal.onOpen()
+    if (!currentUser) return loginModal.onOpen()
+    if (!dateRange.startDate || !dateRange.endDate) {
+      toast.error("날짜를 정확하게 지정해주세요")
+      return
     }
 
     setIsLoading(true)
 
+    // 리팩토링 필요
+    const startDate = new Date(dateRange.startDate).setHours(timeRange.startTime, 0, 0)
+    const endDate = new Date(new Date(dateRange.endDate).setHours(timeRange.endTime, 0))
+
     axios
       .post("/api/reservations", {
         totalPrice,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
+        startDate,
+        endDate,
         listingId: listing.id,
       })
       .then(() => {
@@ -119,10 +136,17 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
                 price={listing.price}
                 totalPrice={totalPrice}
                 dateRange={dateRange}
+                timeRange={timeRange}
                 disabled={isLoading}
                 disabledDates={disabledDates}
                 onSubmit={onCreateReservation}
                 onChangeDate={value => setDateRange(value)}
+                onChangeRange={(type, value) =>
+                  setTimeRange(prev => ({
+                    ...prev,
+                    [type]: value,
+                  }))
+                }
               />
             </div>
           </div>
