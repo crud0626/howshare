@@ -35,7 +35,35 @@ const pretendard = localFont({
 
 export const metadata: Metadata = {
   title: "HowShare",
-  description: "Let's Share and use your house",
+  description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
+  keywords: [
+    "하우쉐어",
+    "howshare",
+    "여행",
+    "숙소 예약 사이트",
+    "숙박 예약 사이트",
+    "글램핑",
+    "펜션",
+    "국내 여행",
+    "게스트하우스",
+    "국내당일치기여행",
+    "호캉스",
+    "레지던스",
+    "국내여행지추천",
+  ],
+  openGraph: {
+    type: "website",
+    title: "HowShare",
+    description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
+    // url: "",
+    images: ["/images/og_image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/og_twitter_image.png"],
+    title: "HowShare",
+    description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
+  },
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
