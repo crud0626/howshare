@@ -50,7 +50,7 @@ model Listing {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
-  imageSrc String
+  images Image[]
   createdAt DateTime @default(now())
   category String
   roomCount Int
@@ -62,6 +62,14 @@ model Listing {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
+}
+
+model Image {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  src String
+  listingId String @db.ObjectId
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: NoAction)
 }
 
 model Reservation {
