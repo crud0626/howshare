@@ -56,7 +56,7 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome Back!" subtitle="Login to your account!" />
+      <Heading title="여행을 떠나볼까요?" subtitle="로그인 정보를 입력해주세요!" />
       <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
       <Input
         id="password"
@@ -95,10 +95,10 @@ const LoginModal = () => {
   return (
     <Modal
       isOpen={loginModal.isOpen}
-      title="Login"
+      title="로그인"
       body={bodyContent}
       footer={footerContent}
-      actionLabel="Continue"
+      actionLabel="로그인"
       disabled={isLoading}
       onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

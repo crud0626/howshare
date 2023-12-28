@@ -23,7 +23,7 @@ const CategoryInput = ({ icon: Icon, label, selected, onClick }: CategoryInputPr
     hover:border-black
     transition
     cursor-pointer
-    ${selected ? "border-black" : "border-neutral-200"}
+    ${selected ? "border-black" : "border-main-light-gray"}
   `}
     >
       <Icon size={30} />

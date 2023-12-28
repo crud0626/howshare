@@ -57,7 +57,7 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Airbnb" subtitle="Create an account!" />
+      <Heading title="HowShare와 함께 여행을 떠나보세요!" subtitle="계정 정보를 입력해주세요!" />
       <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
       <Input id="name" label="Name" disabled={isLoading} register={register} errors={errors} required />
       <Input
@@ -75,13 +75,13 @@ const RegisterModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button outline label="Continue with Google" icon={FcGoogle} onClick={() => signIn("google")} />
-      <Button outline label="Continue with Github" icon={AiFillGithub} onClick={() => signIn("github")} />
+      <Button outline label="구글로 회원가입하기" icon={FcGoogle} onClick={() => signIn("google")} />
+      <Button outline label="깃허브로 회원가입하기" icon={AiFillGithub} onClick={() => signIn("github")} />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
-          <div>Already have an account?</div>
+          <div>이미 계정이 있으신가요?</div>
           <div onClick={toggleModal} className="text-neutral-800 cursor-pointer hover:underline">
-            Login
+            로그인
           </div>
         </div>
       </div>
@@ -91,10 +91,10 @@ const RegisterModal = () => {
   return (
     <Modal
       isOpen={registerModal.isOpen}
-      title="Register"
+      title="회원가입"
       body={bodyContent}
       footer={footerContent}
-      actionLabel="Continue"
+      actionLabel="회원가입"
       disabled={isLoading}
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

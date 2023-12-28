@@ -2,16 +2,15 @@
 
 import { useCallback, useState } from "react"
 import { useRouter } from "next/navigation"
-import { AiOutlineMenu } from "react-icons/ai"
 import { signOut } from "next-auth/react"
 import { User } from "@prisma/client"
-
-import Avatar from "../Avatar"
-import MenuItem from "./MenuItem"
 
 import useRegisterModal from "@/app/hooks/useRegisterModal"
 import useLoginModal from "@/app/hooks/useLoginModal"
 import useRentModal from "@/app/hooks/useRentModal"
+
+import Avatar from "../Avatar"
+import MenuItem from "./MenuItem"
 
 interface UserMenuProps {
   currentUser?: User | null
@@ -40,53 +39,44 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
-        <button
-          onClick={onRent}
-          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-        >
-          Airbnb your home
-        </button>
         <div
-          className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
           onClick={toggleOpen}
+          className="p-1 border border-main-light-gray flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
         >
-          <AiOutlineMenu />
-          <div className="hidden md:block">
-            <Avatar src={currentUser?.image} />
-          </div>
+          <Avatar src={currentUser?.image} />
         </div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
+        <div className="absolute rounded-xl shadow-md w-max bg-white overflow-hidden right-0 top-12 text-sm border border-main-light-gray">
           {currentUser ? (
             <>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My trips" onClick={() => router.push("/trips")} />
+                <MenuItem label="내 여행" onClick={() => router.push("/trips")} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My favorites" onClick={() => router.push("/favorites")} />
+                <MenuItem label="내 찜목록" onClick={() => router.push("/favorites")} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My reservations" onClick={() => router.push("/reservations")} />
+                <MenuItem label="내 예약" onClick={() => router.push("/reservations")} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My properties" onClick={() => router.push("/properties")} />
+                <MenuItem label="내 숙소" onClick={() => router.push("/properties")} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="My home" onClick={rentModal.onOpen} />
+                <MenuItem label="숙소 등록하기" onClick={onRent} />
               </div>
               <hr />
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="Log out" onClick={() => signOut()} />
+                <MenuItem label="로그아웃" onClick={() => signOut()} />
               </div>
             </>
           ) : (
             <>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="Login" onClick={loginModal.onOpen} />
+                <MenuItem label="로그인" onClick={loginModal.onOpen} />
               </div>
               <div className="flex flex-col cursor-pointer">
-                <MenuItem label="Sign Up" onClick={registerModal.onOpen} />
+                <MenuItem label="회원가입" onClick={registerModal.onOpen} />
               </div>
             </>
           )}

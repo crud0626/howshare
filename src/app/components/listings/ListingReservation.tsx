@@ -32,10 +32,10 @@ const ListingReservation = ({
   onChangeRange,
 }: ListingReservationProps) => {
   return (
-    <div className="bg-white rounded-xl border-[1px] border-neutral-200">
+    <div className="bg-white rounded-xl border border-main-light-gray">
       <div className="flex flex-row items-center gap-1 p-4">
-        <div className="text-2xl font-semibold">$ {price}</div>
-        <div className="font-light text-neutral-600">/ night</div>
+        <div className="text-2xl font-semibold">￦ {price.toLocaleString()}</div>
+        <div className="font-light text-neutral-600">/ 시간</div>
       </div>
       <hr />
       <Calendar value={dateRange} onChange={value => onChangeDate(value.selection)} />
@@ -60,8 +60,8 @@ const ListingReservation = ({
         <Button disabled={disabled} label="예약하기" onClick={onSubmit} />
       </div>
       <div className="p-4 flex flex-row items-center justify-between font-semibold text-lg">
-        <div>Total</div>
-        <div>$ {totalPrice}</div>
+        <div>총액</div>
+        <div>￦ {totalPrice.toLocaleString()}</div>
       </div>
     </div>
   )
