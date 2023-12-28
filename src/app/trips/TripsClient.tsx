@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react"
 import { useRouter } from "next/navigation"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { toast } from "react-toastify"
 
 import { UserReservation } from "../actions/getReservations"
@@ -29,7 +29,13 @@ const TripsClient = ({ reservations, currentUser }: TripsClientProps) => {
           toast.success("예약이 취소되었습니다.")
           router.refresh()
         })
-        .catch(error => {
+        .catch((err: AxiosError) => {
+          if (err.response?.status === 401) {
+            toast.error("로그인을 다시 해주세요.")
+            router.refresh()
+            return
+          }
+
           toast.error("취소에 실패하였습니다")
         })
         .finally(() => {

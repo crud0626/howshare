@@ -1,8 +1,8 @@
 "use client"
 
+import axios, { AxiosError } from "axios"
 import { useMemo, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
-import axios from "axios"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 
@@ -94,8 +94,15 @@ const RentModal = () => {
         setStep(STEPS.CATEGORY)
         rentModal.onClose()
       })
-      .catch(() => {
-        toast.error("실패했어요")
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          toast.error("로그인을 다시 해주세요.")
+          rentModal.onClose()
+          router.refresh()
+          return
+        }
+
+        toast.error("알 수 없는 에러가 발생하였습니다.")
       })
       .finally(() => {
         setIsLoading(false)

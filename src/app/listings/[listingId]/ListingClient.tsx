@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { toast } from "react-toastify"
 import { Range } from "react-date-range"
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns"
@@ -86,7 +86,13 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
         setDateRange(initialDateRange)
         router.push("/trips")
       })
-      .catch(() => {
+      .catch((err: AxiosError) => {
+        if (err.response?.status === 401) {
+          toast.error("로그인을 다시 해주세요.")
+          router.push("/")
+          return
+        }
+
         toast.error("예약에 실패하였습니다.")
       })
       .finally(() => {
