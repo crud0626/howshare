@@ -9,9 +9,7 @@ interface IParams {
 export async function POST(req: Request, { params }: { params: IParams }) {
   const currentUser = await getCurrentUser()
 
-  if (!currentUser) {
-    return NextResponse.error()
-  }
+  if (!currentUser) return NextResponse.json({ error: "Unauthorized", message: "Token expired" }, { status: 401 })
 
   const { listingId } = params
 
@@ -37,9 +35,7 @@ export async function POST(req: Request, { params }: { params: IParams }) {
 export async function DELETE(req: Request, { params }: { params: IParams }) {
   const currentUser = await getCurrentUser()
 
-  if (!currentUser) {
-    return NextResponse.error()
-  }
+  if (!currentUser) return NextResponse.json({ error: "Unauthorized", message: "Token expired" }, { status: 401 })
 
   const { listingId } = params
 

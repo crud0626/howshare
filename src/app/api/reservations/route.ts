@@ -6,7 +6,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser"
 export async function POST(req: Request) {
   const currentUser = await getCurrentUser()
 
-  if (!currentUser) return NextResponse.error()
+  if (!currentUser) return NextResponse.json({ error: "Invalid Token" }, { status: 404 })
 
   const body = await req.json()
 

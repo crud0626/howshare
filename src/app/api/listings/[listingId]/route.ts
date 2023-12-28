@@ -10,15 +10,11 @@ interface IParams {
 export async function DELETE(req: Request, { params }: { params: IParams }) {
   const currentUser = await getCurrentUser()
 
-  if (!currentUser) {
-    return NextResponse.error()
-  }
+  if (!currentUser) return NextResponse.json({ error: "Unauthorized", message: "Token expired" }, { status: 401 })
 
   const { listingId } = params
 
-  if (!listingId) {
-    throw new Error("Invalid ID")
-  }
+  if (!listingId) return NextResponse.json({ error: "Invalid ID", message: "Invalid Id" }, { status: 404 })
 
   const listing = await prisma.listing.deleteMany({
     where: {
