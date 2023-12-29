@@ -89,16 +89,15 @@ const RentModal = () => {
       onNext()
       return
     }
-
-    const updatedData = {
-      ...data,
-      images: data.images.map(({ src }: FormArrayValue) => ({ src })),
-    }
-
     setIsLoading(true)
 
+    const updatedValue = {
+      ...data,
+      images: data.images.map(({ src }: Record<"src", string>) => src),
+    }
+
     axios
-      .post("/api/listings", updatedData)
+      .post("/api/listings", updatedValue)
       .then(() => {
         toast.success("성공했어요~!")
         router.refresh()

@@ -61,16 +61,7 @@ model Listing {
   price Int
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  images Image[]
   reservations Reservation[]
-}
-
-model Image {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  src String
-  listingId String @db.ObjectId
-
-  listing Listing @relation(fields: [listingId], references: [id], onDelete: NoAction)
 }
 
 model Reservation {
