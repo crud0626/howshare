@@ -1,9 +1,10 @@
 "use client"
 
 import { useCallback } from "react"
-import Image from "next/image"
 import { CldUploadWidget } from "next-cloudinary"
 import { TbPhotoPlus } from "react-icons/tb"
+
+import ImageSlider from "../ImageSlider"
 
 declare global {
   var cloudinary: any
@@ -59,9 +60,7 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
             <div className="font-semibold text-lg">Click to upload</div>
             {value && (
               <div className="absolute inset-0 w-full h-full">
-                {value.map(({ src }) => (
-                  <Image src={src} fill alt="Upload" className="object-cover" />
-                ))}
+                <ImageSlider imgs={value.map(({ src }) => src)} />
               </div>
             )}
           </div>
