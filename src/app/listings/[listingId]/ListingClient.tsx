@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import axios, { AxiosError } from "axios"
 import { toast } from "react-toastify"
 import { Range } from "react-date-range"
-import { differenceInCalendarDays, eachDayOfInterval } from "date-fns"
+import { differenceInHours, eachDayOfInterval } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import { categories } from "@/app/components/Navbar/Categories"
@@ -109,17 +109,15 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      // hours를 구해서 price를 곱해야함.
-      const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate)
+      const start = new Date(dateRange.startDate).setHours(timeRange.startTime, 0, 0)
+      const end = new Date(dateRange.endDate).setHours(timeRange.endTime, 0, 0)
 
-      // 가격 방식 변경
-      if (dayCount && listing.price) {
-        setTotalPrice(dayCount * listing.price)
-      } else {
-        setTotalPrice(listing.price)
-      }
+      const hoursCount = differenceInHours(end, start)
+      const updateTotalPrice = hoursCount ? hoursCount * listing.price : listing.price
+
+      setTotalPrice(updateTotalPrice)
     }
-  }, [dateRange, listing.price])
+  }, [dateRange, timeRange, listing.price])
 
   return (
     <Container>

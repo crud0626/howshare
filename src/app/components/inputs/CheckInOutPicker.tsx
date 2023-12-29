@@ -32,9 +32,6 @@ const CheckInOutPicker = ({ dateRange, timeRange, onChangeTime }: CheckInOutPick
     return
   }, [dateRange, timeRange])
 
-  console.log({ dateRange })
-  console.log({ timeRange })
-
   return (
     <div className="flex flex-col gap-3 p-4">
       <label className={`text-md font-light text-neutral-500 after:content-['*'] after:text-red-500 after:ml-0.5`}>
