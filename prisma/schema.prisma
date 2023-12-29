@@ -50,7 +50,7 @@ model Listing {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
-  images Image[]
+  imageSrcs String[]
   createdAt DateTime @default(now())
   category String
   roomCount Int
@@ -61,6 +61,7 @@ model Listing {
   price Int
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  images Image[]
   reservations Reservation[]
 }
 

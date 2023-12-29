@@ -10,7 +10,7 @@ declare global {
 }
 
 interface ImageUploadProps {
-  value: string
+  value: Record<"id" | "src", string>[]
   onChange: (value: string) => void
 }
 
@@ -25,9 +25,12 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
   return (
     <CldUploadWidget
       onUpload={handleUpload}
+      // 배포 이후 변경 필요
       uploadPreset="mbgiats5"
       options={{
-        maxFiles: 1,
+        sources: ["local", "url", "camera"],
+        multiple: true,
+        maxFiles: 10,
       }}
     >
       {({ open }) => {
@@ -56,7 +59,9 @@ const ImageUpload = ({ value, onChange }: ImageUploadProps) => {
             <div className="font-semibold text-lg">Click to upload</div>
             {value && (
               <div className="absolute inset-0 w-full h-full">
-                <Image src={value} fill alt="Upload" className="object-cover" />
+                {value.map(({ src }) => (
+                  <Image src={src} fill alt="Upload" className="object-cover" />
+                ))}
               </div>
             )}
           </div>

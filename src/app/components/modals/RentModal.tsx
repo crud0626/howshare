@@ -2,7 +2,7 @@
 
 import axios, { AxiosError } from "axios"
 import { useMemo, useState } from "react"
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { FieldValues, SubmitHandler, useFieldArray, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 
@@ -16,6 +16,8 @@ import StateSelect from "../inputs/StateSelect"
 import Counter from "../inputs/Counter"
 import ImageUpload from "../inputs/ImageUpload"
 import Input from "../inputs/Input"
+
+type FormArrayValue = Record<"id" | "src", string>
 
 enum STEPS {
   CATEGORY = 0,
@@ -38,6 +40,7 @@ const RentModal = () => {
     handleSubmit,
     setValue,
     watch,
+    control,
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
@@ -47,11 +50,16 @@ const RentModal = () => {
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
-      imageSrc: "",
+      images: [],
       price: 1,
       title: "",
       description: "",
     },
+  })
+
+  const { fields, append } = useFieldArray({
+    control,
+    name: "images",
   })
 
   const category = watch("category")
@@ -59,7 +67,6 @@ const RentModal = () => {
   const guestCount = watch("guestCount")
   const roomCount = watch("roomCount")
   const bathroomCount = watch("bathroomCount")
-  const imageSrc = watch("imageSrc")
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -83,10 +90,15 @@ const RentModal = () => {
       return
     }
 
+    const updatedData = {
+      ...data,
+      images: data.images.map(({ src }: FormArrayValue) => ({ src })),
+    }
+
     setIsLoading(true)
 
     axios
-      .post("/api/listings", data)
+      .post("/api/listings", updatedData)
       .then(() => {
         toast.success("성공했어요~!")
         router.refresh()
@@ -184,7 +196,7 @@ const RentModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading title="장소 이미지를 추가해주세요" subtitle="사용자에게 보여질 이미지를 소개해주세요!" />
-        <ImageUpload value={imageSrc} onChange={value => setCustomValue("imageSrc", value)} />
+        <ImageUpload value={fields as FormArrayValue[]} onChange={value => append({ src: value })} />
       </div>
     )
   }
