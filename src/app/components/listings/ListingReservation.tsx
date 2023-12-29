@@ -6,7 +6,7 @@ import { TimeRange } from "@/app/listings/[listingId]/ListingClient"
 
 import Calendar from "../inputs/Calendar"
 import Button from "../Button"
-import TimeSelect from "../inputs/TimeSelect"
+import CheckInOutPicker from "../inputs/CheckInOutPicker"
 
 interface ListingReservationProps {
   price: number
@@ -17,7 +17,7 @@ interface ListingReservationProps {
   disabledDates: Date[]
   onSubmit: () => void
   onChangeDate: (value: Range) => void
-  onChangeRange: (type: keyof TimeRange, value: number) => void
+  onChangeTime: (type: keyof TimeRange, value: number) => void
 }
 
 const ListingReservation = ({
@@ -29,7 +29,7 @@ const ListingReservation = ({
   disabledDates,
   onSubmit,
   onChangeDate,
-  onChangeRange,
+  onChangeTime,
 }: ListingReservationProps) => {
   return (
     <div className="bg-white rounded-xl border border-main-light-gray">
@@ -39,22 +39,7 @@ const ListingReservation = ({
       </div>
       <hr />
       <Calendar value={dateRange} onChange={value => onChangeDate(value.selection)} />
-      <div className="flex flex-col gap-3 p-4">
-        <TimeSelect
-          title="입실 시간"
-          value={timeRange.startTime}
-          dateRange={dateRange}
-          required
-          onChange={value => onChangeRange("startTime", value)}
-        />
-        <TimeSelect
-          title="퇴실 시간"
-          value={timeRange.endTime}
-          dateRange={dateRange}
-          required
-          onChange={value => onChangeRange("endTime", value)}
-        />
-      </div>
+      <CheckInOutPicker dateRange={dateRange} timeRange={timeRange} onChangeTime={onChangeTime} />
       <hr />
       <div className="p-4">
         <Button disabled={disabled} label="예약하기" onClick={onSubmit} />

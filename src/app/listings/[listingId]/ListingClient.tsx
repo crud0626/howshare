@@ -41,6 +41,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
   const loginModal = useLoginModal()
   const router = useRouter()
 
+  // 마지막 예약 날짜만 ㄱ
   const disabledDates = useMemo(() => {
     const dates: Date[] = []
 
@@ -67,6 +68,8 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
       toast.error("날짜를 정확하게 지정해주세요")
       return
     }
+
+    // 시간 검수 0 false처리 안되도록 조심
 
     setIsLoading(true)
 
@@ -106,8 +109,10 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
+      // hours를 구해서 price를 곱해야함.
       const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate)
 
+      // 가격 방식 변경
       if (dayCount && listing.price) {
         setTotalPrice(dayCount * listing.price)
       } else {
@@ -147,7 +152,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
                 disabledDates={disabledDates}
                 onSubmit={onCreateReservation}
                 onChangeDate={value => setDateRange(value)}
-                onChangeRange={(type, value) =>
+                onChangeTime={(type, value) =>
                   setTimeRange(prev => ({
                     ...prev,
                     [type]: value,

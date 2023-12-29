@@ -2,14 +2,11 @@
 
 import { useMemo } from "react"
 import Select from "react-select"
-import { Range } from "react-date-range"
-import { eachHourOfInterval, endOfToday, format, isBefore, isToday, startOfToday } from "date-fns"
 
 interface TimeSelectProps {
   value: number
-  dateRange: Range
-  title?: string
-  required?: boolean
+  minDisabledTime?: number
+  maxDisabledTime?: number
   onChange: (value: number) => void
 }
 
@@ -19,38 +16,22 @@ interface TimeSelectOptionType {
   isDisabled: boolean
 }
 
-const requiredStyle = "after:content-['*'] after:text-red-500 after:ml-0.5"
+const hours = Array.from({ length: 24 }).map((_, i) => i)
 
-const TimeSelect = ({ value, title, dateRange, required, onChange }: TimeSelectProps) => {
-  const currentValue: TimeSelectOptionType = {
-    value,
-    label: format(new Date().setHours(value, 0, 0), "H:mm"),
-    isDisabled: true,
-  }
-
+const TimeSelect = ({ value, minDisabledTime = 0, maxDisabledTime = 24, onChange }: TimeSelectProps) => {
   const hoursOptions: TimeSelectOptionType[] = useMemo(() => {
-    const todayIsStartDay = isToday(dateRange.startDate || new Date(0))
-    const now = Date.now()
-    const dates = eachHourOfInterval({
-      start: startOfToday(),
-      end: endOfToday(),
-    })
-
-    return dates.map(date => ({
-      value: date.getHours(),
-      label: format(date, "H:mm"),
-      isDisabled: todayIsStartDay ? isBefore(date, now) : false,
+    return hours.map(hour => ({
+      value: hour,
+      label: `${hour}:00`,
+      isDisabled: hour < minDisabledTime || hour > maxDisabledTime,
     }))
-  }, [value, dateRange])
+  }, [value, minDisabledTime, maxDisabledTime])
 
   return (
     <div className="flex flex-col gap-1">
-      {title && (
-        <label className={`text-md font-light text-neutral-500 ${required ? requiredStyle : ""}`}>{title}</label>
-      )}
       <Select
-        value={currentValue}
-        placeholder="날짜를 선택해주세요"
+        value={hoursOptions.filter(hour => hour.value === value)}
+        placeholder="시간을 선택해주세요"
         options={hoursOptions}
         isOptionDisabled={option => option.isDisabled}
         onChange={data => {
