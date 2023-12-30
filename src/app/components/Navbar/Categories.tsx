@@ -1,7 +1,15 @@
 "use client"
 
-import Container from "../Container"
+import { usePathname, useSearchParams } from "next/navigation"
+import { Swiper, SwiperSlide } from "swiper/react"
+import "swiper/css"
+
 import { TbBeach, TbPool } from "react-icons/tb"
+import { MdOutlineVilla } from "react-icons/md"
+import { TbMountain } from "react-icons/tb"
+import { FaSkiing } from "react-icons/fa"
+import { BsSnow } from "react-icons/bs"
+import { IoDiamond } from "react-icons/io5"
 import {
   GiBarn,
   GiCactus,
@@ -12,13 +20,9 @@ import {
   GiIsland,
   GiWindmill,
 } from "react-icons/gi"
-import { MdOutlineVilla } from "react-icons/md"
-import { TbMountain } from "react-icons/tb"
-import { FaSkiing } from "react-icons/fa"
-import { BsSnow } from "react-icons/bs"
-import { IoDiamond } from "react-icons/io5"
+
+import Container from "../Container"
 import CategoryBox from "../CategoryBox"
-import { usePathname, useSearchParams } from "next/navigation"
 
 export const categories = [
   {
@@ -111,11 +115,23 @@ const Categories = () => {
 
   return (
     <Container>
-      <div className="px-4 flex flex-row items-center justify-between overflow-x-auto">
+      <Swiper
+        slidesPerView={4}
+        breakpoints={{
+          768: {
+            slidesPerView: 8,
+          },
+          1024: {
+            slidesPerView: 10,
+          },
+        }}
+      >
         {categories.map(item => (
-          <CategoryBox key={item.label} label={item.label} selected={category === item.label} icon={item.icon} />
+          <SwiperSlide key={item.label}>
+            <CategoryBox key={item.label} label={item.label} selected={category === item.label} icon={item.icon} />
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </Container>
   )
 }

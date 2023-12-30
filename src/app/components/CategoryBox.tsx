@@ -1,7 +1,7 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { IconType } from "react-icons"
 import qs from "query-string"
 
@@ -49,12 +49,13 @@ const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
     flex-col
     items-center
     justify-center
+    mx-auto
     gap-2
     p-3
     border-b-2
-    hover:text-neutral-800
     transition
     cursor-pointer
+    hover:text-neutral-800
     ${selected ? "border-b-neutral-800" : "border-transparent"}
     ${selected ? "text-neutral-800" : "text-neutral-500"}
   `}
