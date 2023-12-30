@@ -36,22 +36,26 @@ const ListingInfo = ({
 }: ListingInfoProps) => {
   return (
     <div className="col-span-4 flex flex-col gap-8">
-      <div className="flex flex-col gap-2">
-        <div className="text-xl font-semibold flex flex-row items-center gap-2">
-          <div>Hosted by {user?.name}</div>
-          <Avatar src={user?.image} />
+      <div className="flex flex-col gap-4">
+        <div className="text-xl font-semibold flex flex-row items-center gap-6">
+          <Avatar src={user?.image} size={40} />
+          <div>호스트 : {user?.name}</div>
         </div>
-        <div className="flex flex-row items-center gap-4 font-light text-neutral-500">
-          <div>{guestCount} guests</div>
-          <div>{roomCount} rooms</div>
-          <div>{bathroomCount} bathrooms</div>
+        <div className="flex flex-row items-center gap-3 font-light text-neutral-500">
+          <div>정원 {guestCount}명</div>
+          <div className="flex gap-3 before:content-['|'] before:text-neutral-500">방 {roomCount}개</div>
+          <div className="flex gap-3 before:content-['|'] before:text-neutral-500">화장실 {bathroomCount}개</div>
         </div>
       </div>
       <hr />
+      <h3 className="text-xl font-bold">숙소 특징</h3>
       {category && <ListingCategory icon={category.icon} label={category.label} description={category.description} />}
       <hr />
+      <h3 className="text-xl font-bold">숙소 설명</h3>
       <div className="text-lg font-light text-neutral-500">{description}</div>
       <hr />
+      <h3 className="text-xl font-bold">숙소 위치</h3>
+      <div className="text-lg font-light text-neutral-500">{locationValue}</div>
       <Map userAddress={locationValue} />
     </div>
   )
