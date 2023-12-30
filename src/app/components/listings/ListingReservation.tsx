@@ -2,6 +2,7 @@
 
 import { Range } from "react-date-range"
 
+import { Reservation } from "@prisma/client"
 import { TimeRange } from "@/app/listings/[listingId]/ListingClient"
 
 import Calendar from "../inputs/Calendar"
@@ -14,7 +15,7 @@ interface ListingReservationProps {
   dateRange: Range
   timeRange: TimeRange
   disabled?: boolean
-  disabledDates: Date[]
+  reservations?: Reservation[]
   onSubmit: () => void
   onChangeDate: (value: Range) => void
   onChangeTime: (type: keyof TimeRange, value: number) => void
@@ -26,7 +27,7 @@ const ListingReservation = ({
   dateRange,
   timeRange,
   disabled,
-  disabledDates,
+  reservations,
   onSubmit,
   onChangeDate,
   onChangeTime,
@@ -39,7 +40,7 @@ const ListingReservation = ({
       </div>
       <hr />
       <Calendar value={dateRange} onChange={value => onChangeDate(value.selection)} />
-      <CheckInOutPicker dateRange={dateRange} timeRange={timeRange} onChangeTime={onChangeTime} />
+      <CheckInOutPicker dateRange={dateRange} timeRange={timeRange} reservations={reservations} onChangeTime={onChangeTime} />
       <hr />
       <div className="p-4">
         <Button disabled={disabled} label="예약하기" onClick={onSubmit} />

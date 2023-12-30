@@ -5,8 +5,9 @@ import Select from "react-select"
 
 interface TimeSelectProps {
   value?: number
-  minDisabledTime?: number
-  maxDisabledTime?: number
+  minDisabledHour?: number
+  maxDisabledHour?: number
+  disabledHours?: number[]
   onChange: (value: number) => void
 }
 
@@ -18,16 +19,16 @@ interface TimeSelectOptionType {
 
 const hours = Array.from({ length: 24 }).map((_, i) => i)
 
-const TimeSelect = ({ value, minDisabledTime = 0, maxDisabledTime = 24, onChange }: TimeSelectProps) => {
+const TimeSelect = ({ value, minDisabledHour = 0, maxDisabledHour = 24, disabledHours = [], onChange }: TimeSelectProps) => {
   const selectRef = useRef<any>(null)
 
   const hoursOptions: TimeSelectOptionType[] = useMemo(() => {
     return hours.map(hour => ({
       value: hour,
       label: `${hour}:00`,
-      isDisabled: hour < minDisabledTime || hour > maxDisabledTime,
+      isDisabled: hour < minDisabledHour || hour > maxDisabledHour || disabledHours.includes(hour),
     }))
-  }, [value, minDisabledTime, maxDisabledTime])
+  }, [value, minDisabledHour, maxDisabledHour, disabledHours])
 
   useEffect(() => {
     if (!value && selectRef.current) {
@@ -38,6 +39,7 @@ const TimeSelect = ({ value, minDisabledTime = 0, maxDisabledTime = 24, onChange
   return (
     <div className="flex flex-col gap-1">
       <Select
+        ref={selectRef}
         value={value ? hoursOptions.filter(hour => hour.value === value) : undefined}
         placeholder="시간을 선택해주세요"
         options={hoursOptions}

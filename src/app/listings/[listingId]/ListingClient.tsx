@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import axios, { AxiosError } from "axios"
 import { toast } from "react-toastify"
 import { Range } from "react-date-range"
-import { differenceInHours, eachDayOfInterval } from "date-fns"
+import { differenceInHours } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import { categories } from "@/app/components/Navbar/Categories"
@@ -40,22 +40,6 @@ const intialTimeRange: TimeRange = {
 const ListingClient = ({ listing, reservations = [], currentUser }: ListingClientProps) => {
   const loginModal = useLoginModal()
   const router = useRouter()
-
-  // 마지막 예약 날짜만 ㄱ
-  const disabledDates = useMemo(() => {
-    const dates: Date[] = []
-
-    reservations.forEach(reservation => {
-      const range = eachDayOfInterval({
-        start: new Date(reservation.startDate),
-        end: new Date(reservation.endDate),
-      })
-
-      dates.push(...range)
-    })
-
-    return dates
-  }, [reservations])
 
   const [isLoading, setIsLoading] = useState(false)
   const [totalPrice, setTotalPrice] = useState(listing.price)
@@ -137,6 +121,10 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
     }
   }, [dateRange, timeRange, listing.price])
 
+  useEffect(() => {
+    setTimeRange(intialTimeRange)
+  }, [dateRange.startDate])
+
   return (
     <Container>
       <div className="max-w-screen-lg mx-auto">
@@ -165,7 +153,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
                 dateRange={dateRange}
                 timeRange={timeRange}
                 disabled={isLoading}
-                disabledDates={disabledDates}
+                reservations={reservations}
                 onSubmit={onCreateReservation}
                 onChangeDate={setDateRange}
                 onChangeTime={onChangeTime}

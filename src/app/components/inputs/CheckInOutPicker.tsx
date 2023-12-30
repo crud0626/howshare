@@ -1,7 +1,8 @@
 import React, { useMemo } from "react"
 import { Range } from "react-date-range"
-import { getHours, isSameDay, isToday } from "date-fns"
+import { eachHourOfInterval, endOfDay, getHours, isSameDay, isToday, isWithinInterval, startOfDay } from "date-fns"
 
+import { Reservation } from "@prisma/client"
 import { TimeRange } from "@/app/listings/[listingId]/ListingClient"
 
 import TimeSelect from "./TimeSelect"
@@ -9,15 +10,60 @@ import TimeSelect from "./TimeSelect"
 interface CheckInOutPickerProps {
   dateRange: Pick<Range, "startDate" | "endDate">
   timeRange: TimeRange
-  // 마지막 예약 날짜
+  reservations?: Reservation[]
   onChangeTime: (type: keyof TimeRange, value: number) => void
 }
 
-const CheckInOutPicker = ({ dateRange, timeRange, onChangeTime }: CheckInOutPickerProps) => {
+const CheckInOutPicker = ({ dateRange, timeRange, reservations, onChangeTime }: CheckInOutPickerProps) => {
+  const disabledCheckinTime = useMemo(() => {
+    const disabledTimes: Set<number> = new Set()
+
+    if (!reservations || !dateRange.startDate) return
+
+    reservations.forEach(reservation => {
+      // 체크인 하려는 날짜와 이미 예약된 날짜의 체크인이 같은 경우
+      if (isSameDay(dateRange.startDate!, reservation.startDate)) {
+        if (isSameDay(reservation.startDate, reservation.endDate)) {
+          // 해당 예약이 당일 이용인 경우
+          const hours = eachHourOfInterval({ start: reservation.startDate, end: reservation.endDate})
+          hours.forEach(hour => disabledTimes.add(hour.getHours()))
+        } else {
+          // 1박 이상 이용하는 예약인 경우 (이게 있으면 다른 건 할 필요가 없음.) ???
+          const hours = eachHourOfInterval({ start: reservation.startDate, end: endOfDay(reservation.startDate)})
+          hours.forEach(hour => disabledTimes.add(hour.getHours()))
+        }
+      }
+
+      // (당일만 이용하는 고객은 아니지만) endDate가 같은 경우
+      // 2. endDate가 체크인 하려는 날짜와 같은 경우
+      if (!isSameDay(dateRange.startDate!, reservation.startDate) && isSameDay(dateRange.startDate!, reservation.endDate)) {
+        const hours = eachHourOfInterval({ start: startOfDay(reservation.endDate), end: reservation.endDate })
+        hours.forEach(hour => disabledTimes.add(hour.getHours()))
+      }
+
+      // 예약 내역이 해당 날짜 전부를 포함하는지
+      if (
+        isWithinInterval(startOfDay(dateRange.startDate!), { start: reservation.startDate, end: reservation.endDate}) &&
+        isWithinInterval(endOfDay(dateRange.startDate!), { start: reservation.startDate, end: reservation.endDate})
+      ) {
+        const hours = eachHourOfInterval({ start: reservation.startDate, end: reservation.endDate })
+        hours.forEach(hour => disabledTimes.add(hour.getHours()))
+      }
+
+      /** 
+       * 순서가 반대로 되어야 한다.
+       * 체크인하려는 날짜가 다른 예약 날짜 사이에 껴있는 경우 전체가 다 불가능함.
+       * startDate는 다르지만 endDate만 같은 경우 endDate 이전 시간은 전부 불가능 처리
+       * 1번의 경우인 당일 예약 고객인 경우 특정 시간~특정 시간까지만 disabled처리되기 때문에
+       * */
+    })
+
+    return Array.from(disabledTimes)
+  }, [dateRange.startDate, reservations])
+
   const minCheckinTime = useMemo(() => {
     if (!dateRange.startDate || !isToday(dateRange.startDate)) return 0
 
-    // 체크인은 최소 2시간 이후부터 가능
     return getHours(Date.now()) + 3
   }, [dateRange])
 
@@ -38,7 +84,8 @@ const CheckInOutPicker = ({ dateRange, timeRange, onChangeTime }: CheckInOutPick
       </label>
       <TimeSelect
         value={timeRange.startTime}
-        minDisabledTime={minCheckinTime}
+        minDisabledHour={minCheckinTime}
+        disabledHours={disabledCheckinTime}
         onChange={value => onChangeTime("startTime", value)}
       />
       <label className={`text-md font-light text-neutral-500 after:content-['*'] after:text-red-500 after:ml-0.5`}>
@@ -46,7 +93,7 @@ const CheckInOutPicker = ({ dateRange, timeRange, onChangeTime }: CheckInOutPick
       </label>
       <TimeSelect
         value={timeRange.endTime}
-        minDisabledTime={minCheckoutTime}
+        minDisabledHour={minCheckoutTime}
         // maxDisabledTime={} // 마지막 예약의 endTime이 있으면 그걸로 or undefined
         onChange={value => onChangeTime("endTime", value)}
       />
