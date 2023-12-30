@@ -8,6 +8,7 @@ import { Listing, Reservation, User } from "@prisma/client"
 import HeartButton from "../HeartButton"
 import Button from "../Button"
 import ImageSlider from "../ImageSlider"
+import { categories } from "../Navbar/Categories"
 
 interface ListingCardProps {
   data: Listing
@@ -62,6 +63,10 @@ const ListingCard = ({
     return `${format(start, "PP")} - ${format(end, "PP")}`
   }, [reservation])
 
+  const categoryText = useMemo(() => {
+    return categories.find(({ type }) => type === data.category)?.label
+  }, [data.category])
+
   return (
     <div className="col-span-1 cursor-pointer group border border-main-light-gray rounded-xl hover:shadow-md">
       <div className="flex flex-col gap-2 w-full">
@@ -76,7 +81,7 @@ const ListingCard = ({
             <div className="font-semibold text-lg truncate">{data.title}</div>
             <div className="font-light text-neutral-500 truncate">{data.locationValue}</div>
           </div>
-          <div className="font-light text-neutral-500">{reservationDate || data.category}</div>
+          <div className="font-light text-neutral-500">{reservationDate || categoryText}</div>
           <div className="flex flex-row items-center gap-1">
             <div className="font-semibold">￦ {price.toLocaleString()}</div>
             {!reservation && <div className="font-light">/ 시간</div>}

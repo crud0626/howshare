@@ -106,7 +106,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
   }, [totalPrice, dateRange, listing.id, router, currentUser, loginModal])
 
   const category = useMemo(() => {
-    return categories.find(item => item.label === listing.category)
+    return categories.find(item => item.type === listing.category)
   }, [listing.category])
 
   useEffect(() => {
