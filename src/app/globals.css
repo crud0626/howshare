@@ -58,3 +58,10 @@ body,
 .swiper-pagination-bullet-active {
   background: #f9fafe !important;
 }
+
+.swiper-thumb-container {
+  padding-top: 0.625rem;
+  .swiper-slide-thumb-active {
+    opacity: 1;
+  }
+}
