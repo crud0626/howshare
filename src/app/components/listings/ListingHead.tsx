@@ -17,7 +17,7 @@ const ListingHead = ({ title, imageSrcs, locationValue, id, currentUser }: Listi
       <Heading title={title} subtitle={locationValue} />
       <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
         <ImageSlider navigation imgs={imageSrcs} />
-        <div className="absolute top-5 right-5">
+        <div className="absolute top-5 right-5 z-10">
           <HeartButton listingId={id} currentUser={currentUser} />
         </div>
       </div>

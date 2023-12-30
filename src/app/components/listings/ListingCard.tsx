@@ -67,7 +67,7 @@ const ListingCard = ({
       <div className="flex flex-col gap-2 w-full">
         <div className="aspect-square w-full relative overflow-hidden rounded-t-xl">
           <ImageSlider navigation imgs={data.imageSrcs} />
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 z-10">
             <HeartButton small listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
