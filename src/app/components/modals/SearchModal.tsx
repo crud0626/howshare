@@ -88,24 +88,16 @@ const SearchModal = () => {
   }, [step, searchModal, location, router, guestCount, roomCount, bathroomCount, dateRange, onNext, params])
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.INFO) {
-      return "검색"
-    }
-
-    return "다음"
+    return step === STEPS.INFO ? "검색" : "다음"
   }, [step])
 
   const secondaryActionLabel = useMemo(() => {
-    if (step === STEPS.LOCATION) {
-      return undefined
-    }
-
-    return "이전"
+    return step === STEPS.LOCATION ? undefined : "이전"
   }, [step])
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
-      <Heading title="어디에 가고 싶으세요?" subtitle="지역을 선택해주세요!" />
+      <Heading title="어디로 떠나고 싶으신가요?" subtitle="숙소 이름이나 지역을 입력해주세요!" />
       <StateSelect value={location} onChange={value => setLoaction(value)} />
       <hr />
       <Map userAddress={location} />
@@ -115,7 +107,7 @@ const SearchModal = () => {
   if (step === STEPS.DATE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="여행 일정이 어떻게 되나요?" subtitle="당신의 일정을 입력해주세요!" />
+        <Heading title="여행 일정을 입력해주세요!" subtitle="시간도 함께 입력해주세요" />
         <Calendar value={dateRange} onChange={value => setDateRange(value.selection)} />
       </div>
     )
@@ -124,7 +116,7 @@ const SearchModal = () => {
   if (step === STEPS.INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="인원이 어떻게 되시나요?" subtitle="최대 인원 수를 입력해주세요!" />
+        <Heading title="인원이 어떻게 되시나요?" subtitle="아이도 포함해주세요" />
         <Counter
           title="인원 수"
           subtitle="인원이 몇명인가요?"
@@ -150,7 +142,7 @@ const SearchModal = () => {
   return (
     <Modal
       isOpen={searchModal.isOpen}
-      title="검색하기"
+      title="숙소 검색"
       actionLabel={actionLabel}
       body={bodyContent}
       secondaryActionLabel={secondaryActionLabel}
