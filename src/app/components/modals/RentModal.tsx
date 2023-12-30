@@ -121,24 +121,16 @@ const RentModal = () => {
   }
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.PRICE) {
-      return "Create"
-    }
-
-    return "Next"
+    return step === STEPS.PRICE ? "제출" : "다음"
   }, [step])
 
   const secondaryActionLabel = useMemo(() => {
-    if (step === STEPS.CATEGORY) {
-      return
-    }
-
-    return "Back"
+    return step === STEPS.CATEGORY ? undefined : "이전"
   }, [step])
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
-      <Heading title="공유하려는 장소의 특징을 선택해주세요." subtitle="특징을 선택해주세요." />
+      <Heading title="숙소의 특징을 선택해주세요" subtitle="숙소의 가장 큰 특징 1가지만 선택해주세요" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto">
         {categories.map(item => (
           <div key={item.label} className="col-span-1">
@@ -157,7 +149,7 @@ const RentModal = () => {
   if (step === STEPS.LOCATION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="숙소의 위치는 어디인가요?" subtitle="손님이 찾을 수 있도록 입력해주세요!" />
+        <Heading title="숙소의 위치는 어디인가요?" subtitle="정확한 주소를 입력해주세요" />
         <StateSelect value={location} onChange={value => setCustomValue("location", value)} />
       </div>
     )
@@ -166,27 +158,12 @@ const RentModal = () => {
   if (step === STEPS.INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="몇 명까지 입장할 수 있나요?" subtitle="어떤 어메니티들이 있나요?" />
-        <Counter
-          title="최대 인원 수를 입력해주세요"
-          subtitle="최대 인원 수"
-          value={guestCount}
-          onChange={value => setCustomValue("guestCount", value)}
-        />
+        <Heading title="숙소의 정보를 입력해주세요!" subtitle="아래에 정확한 정보를 입력해주세요" />
+        <Counter title="최대 인원 수" value={guestCount} onChange={value => setCustomValue("guestCount", value)} />
         <hr />
-        <Counter
-          title="방 개수"
-          subtitle="방 개수가 몇개인가요?"
-          value={roomCount}
-          onChange={value => setCustomValue("roomCount", value)}
-        />
+        <Counter title="방 개수" value={roomCount} onChange={value => setCustomValue("roomCount", value)} />
         <hr />
-        <Counter
-          title="화장실"
-          subtitle="화장실이 몇개인가요?"
-          value={bathroomCount}
-          onChange={value => setCustomValue("bathroomCount", value)}
-        />
+        <Counter title="화장실 개수" value={bathroomCount} onChange={value => setCustomValue("bathroomCount", value)} />
       </div>
     )
   }
@@ -194,7 +171,7 @@ const RentModal = () => {
   if (step === STEPS.IMAGES) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="장소 이미지를 추가해주세요" subtitle="사용자에게 보여질 이미지를 소개해주세요!" />
+        <Heading title="숙소의 이미지를 추가해주세요!" subtitle="최대 10장까지 추가할 수 있습니다" />
         <ImageUpload value={fields as FormArrayValue[]} onChange={value => append({ src: value })} />
       </div>
     )
@@ -203,10 +180,17 @@ const RentModal = () => {
   if (step === STEPS.DESCRIPTION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="숙소에 대해서 설명해주세요" subtitle="잘 설명해주세요." />
-        <Input id="title" label="Title" disabled={isLoading} register={register} errors={errors} required />
+        <Heading title="숙소에 대해 설명해주세요!" subtitle="사용자에게 보여지는 정보입니다" />
+        <Input id="title" label="숙소의 이름" disabled={isLoading} register={register} errors={errors} required />
         <hr />
-        <Input id="description" label="Description" disabled={isLoading} register={register} errors={errors} required />
+        <Input
+          id="description"
+          label="숙소에 대한 설명"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
       </div>
     )
   }
@@ -214,10 +198,10 @@ const RentModal = () => {
   if (step === STEPS.PRICE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading title="가격을 입력해주세요" subtitle="1박 가격을 입력해주세요" />
+        <Heading title="숙소의 가격을 입력해주세요!" subtitle="시간당 가격을 입력해주세요" />
         <Input
           id="price"
-          label="Price"
+          label="가격"
           formatPrice
           type="number"
           disabled={isLoading}
@@ -231,7 +215,7 @@ const RentModal = () => {
 
   return (
     <Modal
-      title="Login"
+      title="숙소 등록하기"
       isOpen={rentModal.isOpen}
       body={bodyContent}
       actionLabel={actionLabel}
