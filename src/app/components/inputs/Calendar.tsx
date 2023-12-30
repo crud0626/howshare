@@ -1,4 +1,4 @@
-import { addDays } from "date-fns"
+import { addDays, addMonths } from "date-fns"
 import { DateRange, Range, RangeKeyDict } from "react-date-range"
 
 import "react-date-range/dist/styles.css"
@@ -15,7 +15,7 @@ const Calendar = ({ value, onChange }: CalendarProps) => {
       rangeColors={["#262626"]}
       ranges={[value]}
       minDate={new Date()}
-      maxDate={value.startDate ? addDays(value.startDate, 7) : undefined}
+      maxDate={value.startDate ? addDays(value.startDate, 7) : addMonths(new Date(), 6)}
       direction="vertical"
       showDateDisplay={false}
       onChange={onChange}

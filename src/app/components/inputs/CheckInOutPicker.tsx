@@ -15,17 +15,16 @@ interface CheckInOutPickerProps {
 
 const CheckInOutPicker = ({ dateRange, timeRange, onChangeTime }: CheckInOutPickerProps) => {
   const minCheckinTime = useMemo(() => {
-    if (!dateRange.startDate || isToday(dateRange.startDate)) return 0
+    if (!dateRange.startDate || !isToday(dateRange.startDate)) return 0
 
-    return getHours(Date.now()) + 1
+    // 체크인은 최소 2시간 이후부터 가능
+    return getHours(Date.now()) + 3
   }, [dateRange])
 
   const minCheckoutTime = useMemo(() => {
     const { startDate, endDate } = dateRange
 
-    if (!startDate || !endDate) return 23
-
-    // 마지막 예약날짜의 endTime 확인해서 endDate가 같다면 막아야함.
+    if (!startDate || !endDate || !timeRange.startTime) return
 
     if (isSameDay(startDate, endDate)) return timeRange.startTime + 1
 

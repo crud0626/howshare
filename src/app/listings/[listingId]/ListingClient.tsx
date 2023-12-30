@@ -22,8 +22,8 @@ interface ListingClientProps {
 }
 
 export type TimeRange = {
-  startTime: number
-  endTime: number
+  startTime: number | undefined
+  endTime: number | undefined
 }
 
 const initialDateRange = {
@@ -33,8 +33,8 @@ const initialDateRange = {
 }
 
 const intialTimeRange: TimeRange = {
-  startTime: new Date().getHours() + 1,
-  endTime: new Date().getHours() + 2,
+  startTime: undefined,
+  endTime: undefined,
 }
 
 const ListingClient = ({ listing, reservations = [], currentUser }: ListingClientProps) => {
@@ -62,6 +62,21 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
   const [dateRange, setDateRange] = useState<Range>(initialDateRange)
   const [timeRange, setTimeRange] = useState<TimeRange>(intialTimeRange)
 
+  const onChangeTime = (type: keyof TimeRange, value: number) => {
+    if (type === "startTime") {
+      setTimeRange({
+        startTime: value,
+        endTime: undefined,
+      })
+      return
+    }
+
+    setTimeRange(prev => ({
+      ...prev,
+      endTime: value,
+    }))
+  }
+
   const onCreateReservation = useCallback(() => {
     if (!currentUser) return loginModal.onOpen()
     if (!dateRange.startDate || !dateRange.endDate) {
@@ -69,7 +84,10 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
       return
     }
 
-    // 시간 검수 0 false처리 안되도록 조심
+    if (!timeRange.startTime || !timeRange.endTime) {
+      toast.error("예약 시간을 지정해주세요")
+      return
+    }
 
     setIsLoading(true)
 
@@ -108,7 +126,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
   }, [listing.category])
 
   useEffect(() => {
-    if (dateRange.startDate && dateRange.endDate) {
+    if (dateRange.startDate && dateRange.endDate && timeRange.startTime && timeRange.endTime) {
       const start = new Date(dateRange.startDate).setHours(timeRange.startTime, 0, 0)
       const end = new Date(dateRange.endDate).setHours(timeRange.endTime, 0, 0)
 
@@ -149,13 +167,8 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
                 disabled={isLoading}
                 disabledDates={disabledDates}
                 onSubmit={onCreateReservation}
-                onChangeDate={value => setDateRange(value)}
-                onChangeTime={(type, value) =>
-                  setTimeRange(prev => ({
-                    ...prev,
-                    [type]: value,
-                  }))
-                }
+                onChangeDate={setDateRange}
+                onChangeTime={onChangeTime}
               />
             </div>
           </div>
