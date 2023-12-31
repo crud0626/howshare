@@ -8,7 +8,7 @@ import { Range } from "react-date-range"
 import { differenceInHours } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
-import { categories } from "@/app/components/Navbar/Categories"
+import { categories } from "@/app/components/header/Categories"
 import useLoginModal from "@/app/hooks/useLoginModal"
 
 import Container from "@/app/components/Container"

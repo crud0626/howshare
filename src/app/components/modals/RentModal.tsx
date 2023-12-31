@@ -7,7 +7,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 
 import useRentModal from "@/app/hooks/useRentModal"
-import { categories } from "../Navbar/Categories"
+import { categories } from "../header/Categories"
 
 import Modal from "./Modal"
 import Heading from "../Heading"

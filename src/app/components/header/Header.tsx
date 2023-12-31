@@ -7,13 +7,13 @@ import SearchBar from "./SearchBar"
 import UserMenu from "./UserMenu"
 import Categories from "./Categories"
 
-interface NavbarProps {
+interface HeaderProps {
   currentUser?: User | null
 }
 
-const Navbar = ({ currentUser }: NavbarProps) => {
+const Header = ({ currentUser }: HeaderProps) => {
   return (
-    <div className="fixed w-full bg-white z-10 shadow-sm">
+    <header className="fixed w-full bg-white z-20 shadow-sm">
       <div className="py-4 border-b-[1px]">
         <Container>
           <div className="flex flex-row justify-between items-center gap-3 md:gap-0">
@@ -24,8 +24,8 @@ const Navbar = ({ currentUser }: NavbarProps) => {
         </Container>
       </div>
       <Categories />
-    </div>
+    </header>
   )
 }
 
-export default Navbar
+export default Header

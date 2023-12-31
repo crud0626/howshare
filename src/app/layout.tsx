@@ -5,7 +5,7 @@ import "./globals.css"
 
 import getCurrentUser from "./actions/getCurrentUser"
 
-import Navbar from "./components/Navbar/Navbar"
+import Header from "./components/header/Header"
 import RegisterModal from "./components/modals/RegisterModal"
 import LoginModal from "./components/modals/LoginModal"
 import SearchModal from "./components/modals/SearchModal"
@@ -82,7 +82,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <RentModal />
         <SearchModal />
         <ToastProvider />
-        <Navbar currentUser={currentUser} />
+        <Header currentUser={currentUser} />
         <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
