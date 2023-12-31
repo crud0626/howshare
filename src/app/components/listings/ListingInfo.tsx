@@ -15,7 +15,7 @@ interface ListingInfoProps {
   roomCount: number
   guestCount: number
   bathroomCount: number
-  locationValue: string
+  address: string
   category:
     | {
         icon: IconType
@@ -31,7 +31,7 @@ const ListingInfo = ({
   roomCount,
   guestCount,
   bathroomCount,
-  locationValue,
+  address,
   category,
 }: ListingInfoProps) => {
   return (
@@ -55,8 +55,8 @@ const ListingInfo = ({
       <div className="text-lg font-light text-neutral-500">{description}</div>
       <hr />
       <h3 className="text-xl font-bold">숙소 위치</h3>
-      <div className="text-lg font-light text-neutral-500">{locationValue}</div>
-      <Map userAddress={locationValue} />
+      <div className="text-lg font-light text-neutral-500">{address}</div>
+      <Map userAddress={address} />
     </div>
   )
 }

@@ -9,8 +9,9 @@ import { differenceInHours } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import { categories } from "@/app/components/Navbar/Categories"
-import Container from "@/app/components/Container"
 import useLoginModal from "@/app/hooks/useLoginModal"
+
+import Container from "@/app/components/Container"
 import ListingHead from "@/app/components/listings/ListingHead"
 import ListingInfo from "@/app/components/listings/ListingInfo"
 import ListingReservation from "@/app/components/listings/ListingReservation"
@@ -132,7 +133,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
           <ListingHead
             title={listing.title}
             imageSrcs={listing.imageSrcs}
-            locationValue={listing.locationValue}
+            address={listing.address}
             id={listing.id}
             currentUser={currentUser}
           />
@@ -144,7 +145,7 @@ const ListingClient = ({ listing, reservations = [], currentUser }: ListingClien
               roomCount={listing.roomCount}
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
-              locationValue={listing.locationValue}
+              address={listing.address}
             />
             <div className="order-first mb-10 md:order-last md:col-span-3">
               <ListingReservation

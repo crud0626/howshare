@@ -3,12 +3,11 @@
 import { useCallback, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useSearchParams } from "next/navigation"
-import dynamic from "next/dynamic"
 import { Range } from "react-date-range"
 import qs from "query-string"
 import { formatISO } from "date-fns"
 
-import StateSelect from "../inputs/StateSelect"
+import { CiSearch } from "react-icons/ci"
 import useSearchModal from "@/app/hooks/useSearchModal"
 
 import Modal from "./Modal"
@@ -17,7 +16,7 @@ import Calendar from "../inputs/Calendar"
 import Counter from "../inputs/Counter"
 
 enum STEPS {
-  LOCATION = 0,
+  SEARCH = 0,
   DATE = 1,
   INFO = 2,
 }
@@ -27,8 +26,8 @@ const SearchModal = () => {
   const params = useSearchParams()
   const searchModal = useSearchModal()
 
-  const [location, setLoaction] = useState<string>("")
-  const [step, setStep] = useState(STEPS.LOCATION)
+  const [keyword, setKeyword] = useState<string>("")
+  const [step, setStep] = useState(STEPS.SEARCH)
   const [guestCount, setGuestCount] = useState(1)
   const [roomCount, setRoomCount] = useState(1)
   const [bathroomCount, setBathroomCount] = useState(1)
@@ -37,8 +36,6 @@ const SearchModal = () => {
     endDate: new Date(),
     key: "selection",
   })
-
-  const Map = useMemo(() => dynamic(() => import("../Map"), { ssr: false }), [location])
 
   const onBack = useCallback(() => {
     setStep(prev => prev - 1)
@@ -59,7 +56,7 @@ const SearchModal = () => {
 
     const updatedQuery: any = {
       ...currentQuery,
-      locationValue: location?.value,
+      keyword,
       guestCount,
       roomCount,
       bathroomCount,
@@ -81,26 +78,35 @@ const SearchModal = () => {
       { skipNull: true },
     )
 
-    setStep(STEPS.LOCATION)
+    setStep(STEPS.SEARCH)
     searchModal.onClose()
 
     router.push(url)
-  }, [step, searchModal, location, router, guestCount, roomCount, bathroomCount, dateRange, onNext, params])
+  }, [step, searchModal, keyword, router, guestCount, roomCount, bathroomCount, dateRange, onNext, params])
 
   const actionLabel = useMemo(() => {
     return step === STEPS.INFO ? "검색" : "다음"
   }, [step])
 
   const secondaryActionLabel = useMemo(() => {
-    return step === STEPS.LOCATION ? undefined : "이전"
+    return step === STEPS.SEARCH ? undefined : "이전"
   }, [step])
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading title="어디로 떠나고 싶으신가요?" subtitle="숙소 이름이나 지역을 입력해주세요!" />
-      <StateSelect value={location} onChange={value => setLoaction(value)} />
-      <hr />
-      <Map userAddress={location} />
+      <div className="flex flex-row w-full p-3 border border-[#cccccc] rounded-md text-[#808080] cursor-text transition hover:border-[#999999] focus-within:border-black">
+        <input
+          type="text"
+          value={keyword}
+          placeholder="검색어를 입력해주세요"
+          onChange={({ target }) => setKeyword(target.value)}
+          className="grow outline-none"
+        />
+        <div className="p-2 flex flex-row gap-2 before:content-[''] before:w-px before:h-full before:block before:bg-[#cccccc]">
+          <CiSearch size={24} color="#808080" />
+        </div>
+      </div>
     </div>
   )
 
@@ -146,7 +152,7 @@ const SearchModal = () => {
       actionLabel={actionLabel}
       body={bodyContent}
       secondaryActionLabel={secondaryActionLabel}
-      secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
+      secondaryAction={step === STEPS.SEARCH ? undefined : onBack}
       onSubmit={onSubmit}
       onClose={searchModal.onClose}
     />

@@ -16,17 +16,17 @@ import "swiper/css/thumbs"
 interface ListingHeadProps {
   title: string
   imageSrcs: string[]
-  locationValue: string
+  address: string
   id: string
   currentUser?: User | null
 }
 
-const ListingHead = ({ title, imageSrcs, locationValue, id, currentUser }: ListingHeadProps) => {
+const ListingHead = ({ title, imageSrcs, address, id, currentUser }: ListingHeadProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null)
 
   return (
     <>
-      <Heading title={title} subtitle={locationValue} />
+      <Heading title={title} subtitle={address} />
       <div className="w-full h-[60vh] border border-main-light-gray shadow-md overflow-hidden rounded-xl relative">
         <Swiper modules={[Navigation, Thumbs]} navigation thumbs={{ swiper: thumbsSwiper }} className="w-full h-4/5">
           {imageSrcs.map(src => (

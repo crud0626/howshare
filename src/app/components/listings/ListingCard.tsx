@@ -79,7 +79,7 @@ const ListingCard = ({
         <div onClick={() => router.push(`/listings/${data.id}`)} className="p-3 gap-2 flex flex-col">
           <div>
             <div className="font-semibold text-lg truncate">{data.title}</div>
-            <div className="font-light text-neutral-500 truncate">{data.locationValue}</div>
+            <div className="font-light text-neutral-500 truncate">{data.address}</div>
           </div>
           <div className="font-light text-neutral-500">{reservationDate || categoryText}</div>
           <div className="flex flex-row items-center gap-1">

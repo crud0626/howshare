@@ -7,13 +7,13 @@ export interface IListingsParams {
   bathroomCount?: string
   startDate?: string
   endDate?: string
-  locationValue?: string
+  keyword?: string
   category?: string
 }
 
 export default async function getListings(params: IListingsParams) {
   try {
-    const { userId, guestCount, roomCount, bathroomCount, startDate, endDate, locationValue, category } = params
+    const { userId, guestCount, roomCount, bathroomCount, startDate, endDate, keyword, category } = params
 
     let query: any = {}
 
@@ -25,8 +25,11 @@ export default async function getListings(params: IListingsParams) {
       query.category = category
     }
 
-    if (locationValue) {
-      query.locationValue = locationValue
+    if (keyword) {
+      query.OR = [
+        { title: { contains: keyword, mode: "insensitive" } },
+        { address: { contains: keyword, mode: "insensitive" } },
+      ]
     }
 
     if (roomCount) {

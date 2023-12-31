@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   if (!currentUser) return NextResponse.json({ error: "Unauthorized", message: "Token expired" }, { status: 401 })
 
   const body = await req.json()
-  const { title, description, images, category, roomCount, bathroomCount, guestCount, location, price } = body
+  const { title, description, images, category, roomCount, bathroomCount, guestCount, address, price } = body
 
   Object.keys(body).forEach(value => {
     if (!body[value]) {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       roomCount,
       bathroomCount,
       guestCount,
-      locationValue: location,
+      address,
       price: parseInt(price, 10),
       userId: currentUser.id,
     },
