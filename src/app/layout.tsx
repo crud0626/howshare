@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "HowShare",
     description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
-    // url: "",
+    url: "https://www.howshare.me/",
     images: ["/images/og_image.png"],
   },
   twitter: {
