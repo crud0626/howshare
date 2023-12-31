@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import NextAuth, { AuthOptions } from "next-auth"
+import { Adapter } from "next-auth/adapters"
 import prisma from "@/app/lib/prismadb"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 
@@ -9,7 +10,7 @@ import NaverProvider from "next-auth/providers/naver"
 import GoogleProvider from "next-auth/providers/google"
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID || "",

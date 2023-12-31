@@ -1,4 +1,6 @@
+import ReservationsClient from "./ReservationsClient"
 import EmptyState from "../EmptyState"
+
 import getCurrentUser from "../actions/getCurrentUser"
 import getReservations from "../actions/getReservations"
 
