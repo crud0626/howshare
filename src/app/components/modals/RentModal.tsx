@@ -21,7 +21,7 @@ type FormArrayValue = Record<"id" | "src", string>
 
 enum STEPS {
   CATEGORY = 0,
-  LOCATION = 1,
+  ADDRESS = 1,
   INFO = 2,
   IMAGES = 3,
   DESCRIPTION = 4,
@@ -46,7 +46,7 @@ const RentModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       category: "",
-      location: null,
+      address: null,
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -63,7 +63,7 @@ const RentModal = () => {
   })
 
   const category = watch("category")
-  const location = watch("location")
+  const address = watch("address")
   const guestCount = watch("guestCount")
   const roomCount = watch("roomCount")
   const bathroomCount = watch("bathroomCount")
@@ -138,7 +138,12 @@ const RentModal = () => {
               icon={item.icon}
               label={item.label}
               selected={category === item.label}
-              onClick={category => setCustomValue("category", category)}
+              onClick={value => {
+                const category = categories.find(({ label }) => label === value)
+                if (category) {
+                  setCustomValue("category", category.type)
+                }
+              }}
             />
           </div>
         ))}
@@ -146,11 +151,11 @@ const RentModal = () => {
     </div>
   )
 
-  if (step === STEPS.LOCATION) {
+  if (step === STEPS.ADDRESS) {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading title="숙소의 위치는 어디인가요?" subtitle="정확한 주소를 입력해주세요" />
-        <StateSelect value={location} onChange={value => setCustomValue("location", value)} />
+        <StateSelect value={address} onChange={value => setCustomValue("address", value)} />
       </div>
     )
   }
@@ -183,14 +188,19 @@ const RentModal = () => {
         <Heading title="숙소에 대해 설명해주세요!" subtitle="사용자에게 보여지는 정보입니다" />
         <Input id="title" label="숙소의 이름" disabled={isLoading} register={register} errors={errors} required />
         <hr />
-        <Input
-          id="description"
-          label="숙소에 대한 설명"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+        <div className="w-full relative">
+          <textarea 
+          id="description" 
+          cols={30} 
+          rows={10} 
+          disabled={isLoading} 
+          placeholder="숙소에 대한 설명" 
+          {...register("description")}
+          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4
+          ${errors["description"] ? "border-main-blue" : "border-neutral-300"}
+          ${errors["description"] ? "focus:border-main-blue" : "focus:border-black"}
+        `}></textarea>
+        </div>
       </div>
     )
   }

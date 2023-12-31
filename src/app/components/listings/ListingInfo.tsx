@@ -52,7 +52,7 @@ const ListingInfo = ({
       {category && <ListingCategory icon={category.icon} label={category.label} description={category.description} />}
       <hr />
       <h3 className="text-xl font-bold">숙소 설명</h3>
-      <div className="text-lg font-light text-neutral-500">{description}</div>
+      <div className="text-lg font-light text-neutral-500 whitespace-pre-line">{description}</div>
       <hr />
       <h3 className="text-xl font-bold">숙소 위치</h3>
       <div className="text-lg font-light text-neutral-500">{address}</div>
