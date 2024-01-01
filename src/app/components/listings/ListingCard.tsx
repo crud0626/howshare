@@ -8,7 +8,7 @@ import { Listing, Reservation, User } from "@prisma/client"
 import HeartButton from "../HeartButton"
 import Button from "../Button"
 import ImageSlider from "../ImageSlider"
-import { categories } from "../header/Categories"
+import { categories } from "../header/CategoryBar"
 
 interface ListingCardProps {
   data: Listing
