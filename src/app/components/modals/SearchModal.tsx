@@ -123,24 +123,9 @@ const SearchModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading title="인원이 어떻게 되시나요?" subtitle="아이도 포함해주세요" />
-        <Counter
-          title="인원 수"
-          subtitle="인원이 몇명인가요?"
-          value={guestCount}
-          onChange={value => setGuestCount(value)}
-        />
-        <Counter
-          title="방 개수"
-          subtitle="몇 개의 방이 필요하신가요?"
-          value={roomCount}
-          onChange={value => setRoomCount(value)}
-        />
-        <Counter
-          title="화장실 개수"
-          subtitle="몇 개의 화장실이 필요하신가요?"
-          value={bathroomCount}
-          onChange={value => setBathroomCount(value)}
-        />
+        <Counter title="인원 수" value={guestCount} onChange={value => setGuestCount(value)} />
+        <Counter title="방 개수" value={roomCount} onChange={value => setRoomCount(value)} />
+        <Counter title="화장실 개수" value={bathroomCount} onChange={value => setBathroomCount(value)} />
       </div>
     )
   }
