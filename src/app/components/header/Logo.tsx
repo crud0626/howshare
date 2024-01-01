@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <Link href="/">
       <picture>
-        <source srcSet="/images/logo.png" media="(max-width: 768px)" width={46} />
+        <source srcSet="/images/logo.png" media="(max-width: 768px)" width={30} height={30} />
         <Image src="/images/big_logo.png" width={150} height={100} alt="logo" />
       </picture>
     </Link>
