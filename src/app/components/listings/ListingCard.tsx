@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { format } from "date-fns"
+import { format, isSameDay } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import HeartButton from "../HeartButton"
@@ -53,14 +53,14 @@ const ListingCard = ({
   }, [reservation, data.price])
 
   const reservationDate = useMemo(() => {
-    if (!reservation) {
-      return null
-    }
+    if (!reservation) return null
 
     const start = new Date(reservation.startDate)
     const end = new Date(reservation.endDate)
 
-    return `${format(start, "PP")} - ${format(end, "PP")}`
+    const checkoutFormat = isSameDay(start, end) ? "HH:mm" : "yy.MM.dd HH:mm"
+
+    return `${format(start, "yy.MM.dd HH:mm")} ~ ${format(end, checkoutFormat)}`
   }, [reservation])
 
   const categoryText = useMemo(() => {
