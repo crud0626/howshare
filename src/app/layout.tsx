@@ -34,6 +34,7 @@ const pretendard = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.howshare.me"),
   title: "HowShare",
   description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
   keywords: [
@@ -56,11 +57,9 @@ export const metadata: Metadata = {
     title: "HowShare",
     description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
     url: "https://www.howshare.me/",
-    images: ["/images/og_image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/images/og_twitter_image.png"],
     title: "HowShare",
     description: "필요한만큼 시간 단위로 숙소를 빌려보세요!",
   },
