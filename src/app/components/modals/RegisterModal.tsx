@@ -43,7 +43,7 @@ const RegisterModal = () => {
         loginModal.onOpen()
       })
       .catch(() => {
-        toast.error("Something Wrong")
+        toast.error("회원가입에 실패하였습니다.")
       })
       .finally(() => {
         setIsLoading(false)
