@@ -13,6 +13,7 @@ import { categories } from "../header/CategoryBar"
 interface ListingCardProps {
   data: Listing
   reservation?: Reservation
+  hasFavorite?: boolean
   disabled?: boolean
   actionId?: string
   actionLabel?: string
@@ -23,6 +24,7 @@ interface ListingCardProps {
 const ListingCard = ({
   data,
   reservation,
+  hasFavorite,
   disabled,
   actionId = "",
   actionLabel,
@@ -73,7 +75,7 @@ const ListingCard = ({
         <div className="aspect-square w-full relative overflow-hidden rounded-t-xl">
           <ImageSlider navigation imgs={data.imageSrcs} />
           <div className="absolute top-3 right-3 z-10">
-            <HeartButton small listingId={data.id} currentUser={currentUser} />
+            {hasFavorite && <HeartButton small listingId={data.id} currentUser={currentUser} />}
           </div>
         </div>
         <div onClick={() => router.push(`/listings/${data.id}`)} className="p-3 gap-2 flex flex-col">
