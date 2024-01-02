@@ -7,7 +7,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 
 import useRentModal from "@/app/hooks/useRentModal"
-import { categories } from "../header/Categories"
+import { categories } from "../header/CategoryBar"
 
 import Modal from "./Modal"
 import Heading from "../Heading"
@@ -189,17 +189,18 @@ const RentModal = () => {
         <Input id="title" label="숙소의 이름" disabled={isLoading} register={register} errors={errors} required />
         <hr />
         <div className="w-full relative">
-          <textarea 
-          id="description" 
-          cols={30} 
-          rows={10} 
-          disabled={isLoading} 
-          placeholder="숙소에 대한 설명" 
-          {...register("description")}
-          className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4
+          <textarea
+            id="description"
+            cols={30}
+            rows={10}
+            disabled={isLoading}
+            placeholder="숙소에 대한 설명"
+            {...register("description")}
+            className={`peer w-full p-4 pt-6 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed pl-4
           ${errors["description"] ? "border-main-blue" : "border-neutral-300"}
           ${errors["description"] ? "focus:border-main-blue" : "focus:border-black"}
-        `}></textarea>
+        `}
+          ></textarea>
         </div>
       </div>
     )

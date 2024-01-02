@@ -43,13 +43,13 @@ const LoginModal = () => {
       setIsLoading(false)
 
       if (res?.ok) {
-        toast.success("Logged In")
+        toast.success("로그인 되었습니다.")
         router.refresh()
         loginModal.onClose()
       }
 
       if (res?.error) {
-        toast.error(res.error)
+        toast.error("로그인에 실패하였습니다.")
       }
     })
   }

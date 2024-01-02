@@ -17,6 +17,7 @@ const ImageSlider = ({ imgs, navigation }: ImageSliderProps) => {
       modules={[Navigation, Pagination]}
       navigation={navigation}
       pagination={{ dynamicBullets: true, dynamicMainBullets: 3 }}
+      spaceBetween={50}
       className="w-full h-full"
     >
       {imgs.map(src => (

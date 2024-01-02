@@ -102,7 +102,7 @@ export const categories = [
   },
 ]
 
-const Categories = () => {
+const CategoryBar = () => {
   const params = useSearchParams()
   const category = params?.get("category")
   const pathname = usePathname()
@@ -115,20 +115,16 @@ const Categories = () => {
 
   return (
     <Container>
-      <Swiper
-        slidesPerView={4}
-        breakpoints={{
-          768: {
-            slidesPerView: 8,
-          },
-          1024: {
-            slidesPerView: 10,
-          },
-        }}
-      >
+      <Swiper slidesPerView="auto" spaceBetween={64}>
         {categories.map(item => (
           <SwiperSlide key={item.label}>
-            <CategoryBox key={item.label} label={item.label} selected={category === item.type} icon={item.icon} />
+            <CategoryBox
+              key={item.type}
+              type={item.type}
+              label={item.label}
+              selected={category === item.type}
+              icon={item.icon}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -136,4 +132,4 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default CategoryBar

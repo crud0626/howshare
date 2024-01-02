@@ -5,7 +5,7 @@ import Container from "../Container"
 import Logo from "./Logo"
 import SearchBar from "./SearchBar"
 import UserMenu from "./UserMenu"
-import Categories from "./Categories"
+import CategoryBar from "./CategoryBar"
 
 interface HeaderProps {
   currentUser?: User | null
@@ -23,7 +23,7 @@ const Header = ({ currentUser }: HeaderProps) => {
           </div>
         </Container>
       </div>
-      <Categories />
+      <CategoryBar />
     </header>
   )
 }
