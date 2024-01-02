@@ -7,11 +7,12 @@ import qs from "query-string"
 
 interface CategoryBoxProps {
   icon: IconType
+  type: string
   label: string
   selected?: boolean
 }
 
-const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
+const CategoryBox = ({ icon: Icon, type, label, selected }: CategoryBoxProps) => {
   const router = useRouter()
   const params = useSearchParams()
 
@@ -24,7 +25,7 @@ const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
 
     const updatedQuery: any = {
       ...currentQuery,
-      category: label,
+      category: type,
     }
 
     if (params?.get("category") === label) {
@@ -44,21 +45,10 @@ const CategoryBox = ({ icon: Icon, label, selected }: CategoryBoxProps) => {
   return (
     <div
       onClick={handleClick}
-      className={`
-    flex
-    flex-col
-    items-center
-    justify-center
-    mx-auto
-    gap-2
-    p-3
-    border-b-2
-    transition
-    cursor-pointer
-    hover:text-neutral-800
-    ${selected ? "border-b-neutral-800" : "border-transparent"}
-    ${selected ? "text-neutral-800" : "text-neutral-500"}
-  `}
+      className={`flex flex-col items-center justify-center mx-auto gap-2 py-3 border-b-2 transition cursor-pointer hover:text-neutral-800
+        ${selected ? "border-b-neutral-800" : "border-transparent"}
+        ${selected ? "text-neutral-800" : "text-neutral-500"}
+      `}
     >
       <Icon size={26} />
       <div className="font-medium text-sm">{label}</div>

@@ -30,12 +30,12 @@ const PropertiesClient = ({ listings, currentUser }: PropertiesClientProps) => {
         })
         .catch((err: AxiosError) => {
           if (err.response?.status === 401) {
-            toast.error("로그인을 다시 해주세요.")
+            toast.error("잠시 후 다시 시도해주세요.")
             router.push("/")
             return
           }
 
-          toast.error("작업을 실패하였습니다")
+          toast.error("작업에 실패하였습니다")
         })
         .finally(() => {
           setDeletingId("")

@@ -2,8 +2,8 @@
 
 import { useCallback, useState } from "react"
 import axios from "axios"
-import { AiFillGithub } from "react-icons/ai"
 import { FcGoogle } from "react-icons/fc"
+import { SiKakao, SiNaver } from "react-icons/si"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { signIn } from "next-auth/react"
 import { toast } from "react-toastify"
@@ -43,7 +43,7 @@ const RegisterModal = () => {
         loginModal.onOpen()
       })
       .catch(() => {
-        toast.error("Something Wrong")
+        toast.error("회원가입에 실패하였습니다.")
       })
       .finally(() => {
         setIsLoading(false)
@@ -76,7 +76,8 @@ const RegisterModal = () => {
     <div className="flex flex-col gap-4 mt-3">
       <hr />
       <Button outline label="구글로 회원가입하기" icon={FcGoogle} onClick={() => signIn("google")} />
-      <Button outline label="깃허브로 회원가입하기" icon={AiFillGithub} onClick={() => signIn("github")} />
+      <Button outline label="네이버로 회원가입하기" icon={SiNaver} onClick={() => signIn("naver")} />
+      <Button outline label="카카오로 회원가입하기" icon={SiKakao} onClick={() => signIn("kakao")} />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row justify-center items-center gap-2">
           <div>이미 계정이 있으신가요?</div>

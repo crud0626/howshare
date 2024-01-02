@@ -39,9 +39,9 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
 
         await request()
         router.refresh()
-        toast.success("저장!")
+        toast.success(hasFavorited ? "즐겨찾기에서 삭제되었습니다" : "즐겨찾기에 추가되었습니다.")
       } catch (error) {
-        toast.error("저장에 실패했어요")
+        toast.error("작업에 실패하였습니다")
       }
     },
     [currentUser, hasFavorited, listingId, loginModal, router],

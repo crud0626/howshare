@@ -2,17 +2,18 @@
 
 import { useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { format } from "date-fns"
+import { format, isSameDay } from "date-fns"
 import { Listing, Reservation, User } from "@prisma/client"
 
 import HeartButton from "../HeartButton"
 import Button from "../Button"
 import ImageSlider from "../ImageSlider"
-import { categories } from "../header/Categories"
+import { categories } from "../header/CategoryBar"
 
 interface ListingCardProps {
   data: Listing
   reservation?: Reservation
+  hasFavorite?: boolean
   disabled?: boolean
   actionId?: string
   actionLabel?: string
@@ -23,6 +24,7 @@ interface ListingCardProps {
 const ListingCard = ({
   data,
   reservation,
+  hasFavorite,
   disabled,
   actionId = "",
   actionLabel,
@@ -53,14 +55,14 @@ const ListingCard = ({
   }, [reservation, data.price])
 
   const reservationDate = useMemo(() => {
-    if (!reservation) {
-      return null
-    }
+    if (!reservation) return null
 
     const start = new Date(reservation.startDate)
     const end = new Date(reservation.endDate)
 
-    return `${format(start, "PP")} - ${format(end, "PP")}`
+    const checkoutFormat = isSameDay(start, end) ? "HH:mm" : "yy.MM.dd HH:mm"
+
+    return `${format(start, "yy.MM.dd HH:mm")} ~ ${format(end, checkoutFormat)}`
   }, [reservation])
 
   const categoryText = useMemo(() => {
@@ -73,7 +75,7 @@ const ListingCard = ({
         <div className="aspect-square w-full relative overflow-hidden rounded-t-xl">
           <ImageSlider navigation imgs={data.imageSrcs} />
           <div className="absolute top-3 right-3 z-10">
-            <HeartButton small listingId={data.id} currentUser={currentUser} />
+            {hasFavorite && <HeartButton small listingId={data.id} currentUser={currentUser} />}
           </div>
         </div>
         <div onClick={() => router.push(`/listings/${data.id}`)} className="p-3 gap-2 flex flex-col">
