@@ -137,7 +137,7 @@ const RentModal = () => {
             <CategoryInput
               icon={item.icon}
               label={item.label}
-              selected={category === item.label}
+              selected={category === item.type}
               onClick={value => {
                 const category = categories.find(({ label }) => label === value)
                 if (category) {
